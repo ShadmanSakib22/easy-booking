@@ -1,5 +1,6 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { Calendar } from '../src/components/Calendar'
 import type { Slot } from '../src/types'
 
@@ -76,5 +77,49 @@ describe('Calendar slots prop real-time update (PKG-03)', () => {
 
     // Now two available slot buttons visible
     expect(screen.getAllByRole('button', { name: /available/i })).toHaveLength(2)
+  })
+})
+
+describe('onSlotClick event contract (PKG-04)', () => {
+  const todayStr = new Date().toISOString().split('T')[0]
+
+  const availableSlot: Slot = {
+    id: 's-avail',
+    date: todayStr,
+    startUtc: `${todayStr}T09:00:00Z`,
+    endUtc: `${todayStr}T10:00:00Z`,
+    status: 'available',
+  }
+
+  const pendingSlot: Slot = {
+    id: 's-pending',
+    date: todayStr,
+    startUtc: `${todayStr}T11:00:00Z`,
+    endUtc: `${todayStr}T12:00:00Z`,
+    status: 'pending',
+  }
+
+  it('fires with full Slot object for available slot, does not fire for pending slot', async () => {
+    const onSlotClick = vi.fn()
+    render(
+      <Calendar slots={[availableSlot, pendingSlot]} defaultView="month" onSlotClick={onSlotClick}>
+        <Calendar.MonthView />
+      </Calendar>
+    )
+
+    // Click the available slot button
+    const availBtn = screen.getByRole('button', { name: /available/i })
+    await userEvent.click(availBtn)
+    expect(onSlotClick).toHaveBeenCalledOnce()
+    expect(onSlotClick).toHaveBeenCalledWith(expect.objectContaining({
+      startUtc: `${todayStr}T09:00:00Z`,
+      status: 'available',
+    }))
+
+    // Pending slot button is disabled — click should not fire
+    const pendingBtn = screen.getByRole('button', { name: /pending/i })
+    expect(pendingBtn).toBeDisabled()
+    await userEvent.click(pendingBtn)
+    expect(onSlotClick).toHaveBeenCalledOnce() // still only 1 call
   })
 })
