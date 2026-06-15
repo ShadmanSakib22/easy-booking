@@ -4,8 +4,8 @@ import { persist } from 'zustand/middleware'
 export type StoredSlot = {
   id: string
   date: string
-  startTime: string
-  endTime: string
+  startUtc: string
+  endUtc: string
   isBooked: boolean
   bookedByUserId?: string
   bookedByLabel?: string
@@ -25,8 +25,8 @@ export type StoredAppointment = {
 type AppStore = {
   slots: StoredSlot[]
   appointments: StoredAppointment[]
-  createSlot: (date: string, startTime: string, endTime: string) => boolean
-  createSlots: (newSlots: { date: string; startTime: string; endTime: string }[]) => void
+  createSlot: (date: string, startUtc: string, endUtc: string) => boolean
+  createSlots: (newSlots: { date: string; startUtc: string; endUtc: string }[]) => void
   removeSlot: (id: string) => void
   bookSlot: (
     slotId: string,
@@ -42,9 +42,9 @@ type AppStore = {
 function seedSlots(): StoredSlot[] {
   const slots: StoredSlot[] = []
   const times = [
-    { startTime: '09:00', endTime: '10:00' },
-    { startTime: '11:00', endTime: '12:00' },
-    { startTime: '14:00', endTime: '15:00' },
+    { startHour: 9, endHour: 10 },
+    { startHour: 11, endHour: 12 },
+    { startHour: 14, endHour: 15 },
   ]
   let dayOffset = 1
   while (slots.length < 12 && dayOffset <= 30) {
@@ -54,7 +54,9 @@ function seedSlots(): StoredSlot[] {
     if (dow !== 0 && dow !== 6) {
       const dateStr = d.toISOString().split('T')[0]
       for (const t of times) {
-        slots.push({ id: crypto.randomUUID(), date: dateStr, ...t, isBooked: false })
+        const startUtc = `${dateStr}T${String(t.startHour).padStart(2, '0')}:00:00Z`
+        const endUtc = `${dateStr}T${String(t.endHour).padStart(2, '0')}:00:00Z`
+        slots.push({ id: crypto.randomUUID(), date: dateStr, startUtc, endUtc, isBooked: false })
         if (slots.length >= 12) break
       }
     }
@@ -63,19 +65,14 @@ function seedSlots(): StoredSlot[] {
   return slots
 }
 
-function timeToMinutes(timeStr: string): number {
-  const [hours, minutes] = timeStr.split(':').map(Number)
-  return hours * 60 + minutes
-}
-
 function slotsOverlap(
-  slot1: { startTime: string; endTime: string },
-  slot2: { startTime: string; endTime: string }
+  slot1: { startUtc: string; endUtc: string },
+  slot2: { startUtc: string; endUtc: string }
 ): boolean {
-  const start1 = timeToMinutes(slot1.startTime)
-  const end1 = timeToMinutes(slot1.endTime)
-  const start2 = timeToMinutes(slot2.startTime)
-  const end2 = timeToMinutes(slot2.endTime)
+  const start1 = new Date(slot1.startUtc).getTime()
+  const end1 = new Date(slot1.endUtc).getTime()
+  const start2 = new Date(slot2.startUtc).getTime()
+  const end2 = new Date(slot2.endUtc).getTime()
   return start1 < end2 && start2 < end1
 }
 
@@ -85,11 +82,11 @@ export const useAppStore = create<AppStore>()(
       slots: seedSlots(),
       appointments: [],
 
-      createSlot: (date, startTime, endTime) => {
+      createSlot: (date, startUtc, endUtc) => {
         let success = true
         set(s => {
           const hasOverlap = s.slots.some(
-            sl => sl.date === date && slotsOverlap(sl, { startTime, endTime })
+            sl => sl.date === date && slotsOverlap(sl, { startUtc, endUtc })
           )
           if (hasOverlap) {
             success = false
@@ -98,7 +95,7 @@ export const useAppStore = create<AppStore>()(
           return {
             slots: [
               ...s.slots,
-              { id: crypto.randomUUID(), date, startTime, endTime, isBooked: false },
+              { id: crypto.randomUUID(), date, startUtc, endUtc, isBooked: false },
             ],
           }
         })
@@ -123,8 +120,8 @@ export const useAppStore = create<AppStore>()(
               slotsToAdd.push({
                 id: crypto.randomUUID(),
                 date: newSl.date,
-                startTime: newSl.startTime,
-                endTime: newSl.endTime,
+                startUtc: newSl.startUtc,
+                endUtc: newSl.endUtc,
                 isBooked: false,
               })
             }

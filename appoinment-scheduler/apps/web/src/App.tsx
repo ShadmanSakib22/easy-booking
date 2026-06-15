@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Calendar } from 'react-easy-appointments'
+import { Calendar, formatSlotTime } from 'react-easy-appointments'
 import 'react-easy-appointments/styles'
 import type { Slot, BookingFormData } from 'react-easy-appointments'
 import { useAppStore } from './store/appStore'
@@ -7,6 +7,13 @@ import { useUserStore } from './store/userStore'
 import { useThemeStore } from './store/themeStore'
 import { UserSwitcher } from './components/UserSwitcher'
 import { DarkModeToggle } from './components/DarkModeToggle'
+
+/** Convert a date string (YYYY-MM-DD) and local time string (HH:MM) to a UTC ISO timestamp.
+ *  Treats the date+time as the host's local wall time and converts to UTC.
+ */
+function localToUtcIso(date: string, time: string): string {
+  return new Date(`${date}T${time}`).toISOString()
+}
 
 export default function App() {
   const { activeUser } = useUserStore()
@@ -24,8 +31,8 @@ export default function App() {
   const slots: Slot[] = storedSlots.map(s => ({
     id: s.id,
     date: s.date,
-    startTime: s.startTime,
-    endTime: s.endTime,
+    startUtc: s.startUtc,
+    endUtc: s.endUtc,
     status: s.isBooked ? 'booked' : 'available',
     bookedByLabel: s.bookedByLabel,
   }))
@@ -46,6 +53,21 @@ export default function App() {
     setSelectedSlot(null)
   }
 
+  /** AdminPanel emits local time strings — convert to UTC ISO before storing */
+  function handleCreateSlot(date: string, startTime: string, endTime: string): boolean {
+    const startUtc = localToUtcIso(date, startTime)
+    const endUtc = localToUtcIso(date, endTime)
+    return createSlot(date, startUtc, endUtc)
+  }
+
+  function handleCreateSlots(newSlots: { date: string; startTime: string; endTime: string }[]): void {
+    createSlots(newSlots.map(s => ({
+      date: s.date,
+      startUtc: localToUtcIso(s.date, s.startTime),
+      endUtc: localToUtcIso(s.date, s.endTime),
+    })))
+  }
+
   return (
     <div className="min-h-screen bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-slate-100">
       <div className="fixed bottom-5 right-5 z-50 w-[160px] space-y-2">
@@ -63,8 +85,8 @@ export default function App() {
             weekHourStart={weekHourStart}
             weekHourEnd={weekHourEnd}
             appointments={appointments}
-            onCreateSlot={createSlot}
-            onCreateSlots={createSlots}
+            onCreateSlot={handleCreateSlot}
+            onCreateSlots={handleCreateSlots}
             onRemoveSlot={removeSlot}
             onCancelAppointment={cancelAppointment}
             onWeekHourStartChange={setWeekHourStart}
@@ -131,7 +153,7 @@ export default function App() {
                     <p className="font-semibold text-sm text-gray-900 dark:text-white pr-5">{appt.subject}</p>
                     {slot && (
                       <p className="text-xs text-gray-600 dark:text-gray-300">
-                        {slot.date} · {slot.startTime}–{slot.endTime}
+                        {slot.date} · {formatSlotTime(slot.startUtc)}
                       </p>
                     )}
                     <span className="inline-block text-[10px] font-medium bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 px-2 py-0.5">
