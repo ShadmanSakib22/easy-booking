@@ -1,4 +1,4 @@
-import { type ReactNode, useEffect } from 'react'
+import { type ReactNode, useEffect, useState } from 'react'
 import { CalendarContext } from './CalendarContext'
 import { useCalendarState } from '../../hooks/useCalendarState'
 import type { Slot, BookingFormData, CalendarView, CalendarTheme } from '../../types'
@@ -36,41 +36,32 @@ export function CalendarRoot({
 }: CalendarProps) {
   const state = useCalendarState(defaultView, startDate)
 
-  // Resolve effective theme for auto mode
-  const getEffectiveTheme = (): 'light' | 'dark' => {
-    if (theme === 'auto') {
-      if (typeof window !== 'undefined' && window.matchMedia) {
-        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-      }
-      return 'light'
-    }
-    return theme
-  }
+  const [resolvedTheme, setResolvedTheme] = useState<'light' | 'dark'>(() =>
+    theme === 'auto' ? 'light' : theme
+  )
 
-  const effectiveTheme = getEffectiveTheme()
-
-  // For auto mode, listen for OS preference changes
   useEffect(() => {
-    if (theme !== 'auto') return
+    if (theme !== 'auto') { setResolvedTheme(theme); return }
+    if (typeof window === 'undefined' || !window.matchMedia) return
     const mq = window.matchMedia('(prefers-color-scheme: dark)')
-    // Force re-render on change — we rely on the class being re-evaluated
-    const handler = () => { /* state update triggers re-render */ state.setView(state.view) }
+    setResolvedTheme(mq.matches ? 'dark' : 'light')
+    const handler = (e: MediaQueryListEvent) => setResolvedTheme(e.matches ? 'dark' : 'light')
     mq.addEventListener('change', handler)
     return () => mq.removeEventListener('change', handler)
-  }, [theme, state])
+  }, [theme])
 
   const rootClass = headless
     ? undefined
     : [
       'rea-calendar',
-      effectiveTheme === 'dark' ? 'rea-dark' : '',
+      resolvedTheme === 'dark' ? 'rea-dark' : '',
     ]
       .filter(Boolean)
       .join(' ')
 
   return (
     <CalendarContext.Provider
-      value={{ slots, onSlotClick, onBook, headless, weekStartsOn, locale, theme: effectiveTheme, weekHourStart, weekHourEnd, startDate, endDate, ...state }}
+      value={{ slots, onSlotClick, onBook, headless, weekStartsOn, locale, theme: resolvedTheme, weekHourStart, weekHourEnd, startDate, endDate, ...state }}
     >
       <div className={rootClass}>{children}</div>
     </CalendarContext.Provider>
