@@ -30,6 +30,9 @@
   --rea-slot-booked-text: #ffffff;
   --rea-slot-unavailable-bg: #f1f5f9;
   --rea-slot-unavailable-text: #475569;
+  --rea-slot-pending-bg: #d97706;       /* amber-600 */
+  --rea-slot-pending-text: #ffffff;
+  --rea-slot-pending-bg-hover: #b45309; /* amber-700 */
 
   /* Buttons */
   --rea-btn-primary-bg: #1d4ed8;
@@ -625,6 +628,14 @@
   background: var(--rea-slot-booked-bg);
   color: var(--rea-slot-booked-text);
   cursor: default;
+  opacity: 0.9;
+}
+
+/* State: pending — amber, non-interactive; signals "someone is checking out" */
+.rea-slot--pending {
+  background: var(--rea-slot-pending-bg);
+  color: var(--rea-slot-pending-text);
+  cursor: not-allowed;
   opacity: 0.9;
 }
 
