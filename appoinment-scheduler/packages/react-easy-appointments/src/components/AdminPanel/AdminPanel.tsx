@@ -2,6 +2,7 @@ import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { useOptionalCalendarContext } from '../Calendar/CalendarContext'
 import { QuickGenerateModal } from '../QuickGenerateModal/QuickGenerateModal'
+import { formatSlotTime } from '../../utils/formatSlotTime'
 import type { Slot, Appointment } from '../../types'
 
 type Props = {
@@ -72,7 +73,7 @@ export function AdminPanel({
 
   const confirmedAppts = appointments.filter(a => a.status === 'confirmed')
   const sortedSlots = [...slots].sort(
-    (a, b) => a.date.localeCompare(b.date) || a.startTime.localeCompare(b.startTime)
+    (a, b) => a.date.localeCompare(b.date) || a.startUtc.localeCompare(b.startUtc)
   )
   const deletableSlots = sortedSlots.filter(s => s.status === 'available')
   const allSlotsSelected = deletableSlots.length > 0 && deletableSlots.every(s => selectedSlotIds.has(s.id))
@@ -143,7 +144,7 @@ export function AdminPanel({
               {slot.status === 'available' && onRemoveSlot && (
                 <input type="checkbox" checked={selectedSlotIds.has(slot.id)} onChange={() => toggleSlot(slot.id)} />
               )}
-              {slot.date} {slot.startTime}–{slot.endTime} [{slot.status}{slot.bookedByLabel ? ` · ${slot.bookedByLabel}` : ''}]
+              {slot.date} {formatSlotTime(slot.startUtc)}–{formatSlotTime(slot.endUtc)} [{slot.status}{slot.bookedByLabel ? ` · ${slot.bookedByLabel}` : ''}]
             </div>
           ))}
         </div>
@@ -279,14 +280,14 @@ export function AdminPanel({
                               className="rea-admin__checkbox"
                               checked={selectedSlotIds.has(slot.id)}
                               onChange={() => toggleSlot(slot.id)}
-                              aria-label={`Select slot ${slot.date} ${slot.startTime}`}
+                              aria-label={`Select slot ${slot.date} ${formatSlotTime(slot.startUtc)}`}
                             />
                           )}
                         </td>
                       )}
                       <td>{slot.date}</td>
-                      <td>{slot.startTime}</td>
-                      <td>{slot.endTime}</td>
+                      <td>{formatSlotTime(slot.startUtc)}</td>
+                      <td>{formatSlotTime(slot.endUtc)}</td>
                       <td>
                         {slot.status === 'booked' ? (
                           <span className="rea-admin__badge rea-admin__badge--booked">

@@ -1,5 +1,6 @@
 import { format } from 'date-fns'
 import { useCalendarContext } from '../Calendar/CalendarContext'
+import { formatSlotTime } from '../../utils/formatSlotTime'
 import type { Slot } from '../../types'
 
 const MAX_VISIBLE = 3
@@ -12,7 +13,7 @@ type Props = {
 }
 
 export function MonthCell({ date, slots, isCurrentMonth, isToday }: Props) {
-  const { onSlotClick, headless, setView, goToToday: _goToToday, currentDate: _cd } = useCalendarContext()
+  const { onSlotClick, headless, locale, setView, goToToday: _goToToday, currentDate: _cd } = useCalendarContext()
 
   const visibleSlots = slots.slice(0, MAX_VISIBLE)
   const overflowCount = slots.length - MAX_VISIBLE
@@ -35,9 +36,9 @@ export function MonthCell({ date, slots, isCurrentMonth, isToday }: Props) {
               key={slot.id}
               onClick={() => slot.status === 'available' && onSlotClick(slot)}
               disabled={slot.status !== 'available'}
-              aria-label={`${slot.startTime}–${slot.endTime} ${slot.status}`}
+              aria-label={`${formatSlotTime(slot.startUtc, locale)}–${formatSlotTime(slot.endUtc, locale)} ${slot.status}`}
             >
-              {slot.startTime}
+              {formatSlotTime(slot.startUtc, locale)}
             </button>
           ))}
         </div>
@@ -70,12 +71,12 @@ export function MonthCell({ date, slots, isCurrentMonth, isToday }: Props) {
             onClick={() => slot.status === 'available' && onSlotClick(slot)}
             disabled={slot.status !== 'available'}
             className={`rea-slot rea-slot--${slot.status}`}
-            aria-label={`${slot.startTime}–${slot.endTime} ${slot.status}${slot.bookedByLabel ? ` booked by ${slot.bookedByLabel}` : ''}`}
+            aria-label={`${formatSlotTime(slot.startUtc, locale)}–${formatSlotTime(slot.endUtc, locale)} ${slot.status}${slot.bookedByLabel ? ` booked by ${slot.bookedByLabel}` : ''}`}
           >
             <span aria-hidden="true">
               {slot.status === 'available' ? '▸' : slot.status === 'booked' ? '✓' : ''}
             </span>
-            {slot.startTime}
+            {formatSlotTime(slot.startUtc, locale)}
             {slot.bookedByLabel && (
               <span className="rea-slot__label">{slot.bookedByLabel}</span>
             )}

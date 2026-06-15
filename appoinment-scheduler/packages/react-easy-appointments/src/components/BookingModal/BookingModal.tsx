@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useCalendarContext } from '../Calendar/CalendarContext'
+import { formatSlotTime } from '../../utils/formatSlotTime'
 import type { Slot, BookingFormData } from '../../types'
 
 type Props = {
@@ -9,7 +10,7 @@ type Props = {
 }
 
 export function BookingModal({ slot, open, onClose }: Props) {
-  const { onBook, headless } = useCalendarContext()
+  const { onBook, headless, locale } = useCalendarContext()
   const [subject, setSubject] = useState('')
   const [notes, setNotes] = useState('')
 
@@ -17,9 +18,8 @@ export function BookingModal({ slot, open, onClose }: Props) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    const durationMinutes = (
-      (Number(slot.endTime.split(':')[0]) * 60 + Number(slot.endTime.split(':')[1])) -
-      (Number(slot.startTime.split(':')[0]) * 60 + Number(slot.startTime.split(':')[1]))
+    const durationMinutes = Math.round(
+      (new Date(slot.endUtc).getTime() - new Date(slot.startUtc).getTime()) / 60000
     )
     const data: BookingFormData = { subject, notes, durationMinutes }
     onBook(slot, data)
@@ -33,7 +33,7 @@ export function BookingModal({ slot, open, onClose }: Props) {
       <div role="dialog" aria-modal="true" aria-label="Book appointment">
         <button type="button" onClick={onClose} aria-label="Close">×</button>
         <h2>Book Appointment</h2>
-        <p>{slot.date} · {slot.startTime}–{slot.endTime}</p>
+        <p>{slot.date} · {formatSlotTime(slot.startUtc, locale)}–{formatSlotTime(slot.endUtc, locale)}</p>
         <form onSubmit={handleSubmit}>
           <label>
             Subject
@@ -89,7 +89,7 @@ export function BookingModal({ slot, open, onClose }: Props) {
           <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="6" cy="6" r="2.5" fill="currentColor" />
           </svg>
-          {slot.date} · {slot.startTime}–{slot.endTime}
+          {slot.date} · {formatSlotTime(slot.startUtc, locale)}–{formatSlotTime(slot.endUtc, locale)}
         </div>
 
         {/* Title */}
