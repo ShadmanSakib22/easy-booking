@@ -1,0 +1,9 @@
+{
+  "name": "appointment-scheduler-monorepo",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --filter @workspace/web dev",
+    "build:pkg": "pnpm --filter react-easy-appointments build",
+    "test:pkg": "pnpm --filter react-easy-appointments test"
+  }
+}

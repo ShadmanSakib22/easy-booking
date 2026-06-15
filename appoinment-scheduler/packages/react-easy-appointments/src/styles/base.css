@@ -1,0 +1,1527 @@
+/* ============================================================
+   react-easy-appointments — base.css
+   Semantic token system · Light & dark themes · v0.2
+   ============================================================ */
+
+/* ── Token definitions: Light theme (default) ─────────────── */
+.rea-calendar {
+  /* Surfaces */
+  --rea-bg-base: #ffffff;
+  --rea-bg-elevated: #ffffff;
+  --rea-bg-subtle: #f1f5f9;
+  --rea-bg-wash: #eff6ff;
+  --rea-bg-overlay: rgba(15, 23, 42, 0.45);
+
+  /* Borders */
+  --rea-border-default: #cbd5e1;
+  --rea-border-focus: #1d4ed8;
+
+  /* Text */
+  --rea-text-primary: #0f172a;
+  --rea-text-secondary: #475569;
+  --rea-text-disabled: #64748b;
+  --rea-text-on-accent: #ffffff;
+
+  /* Slot states */
+  --rea-slot-available-bg: #15803d;
+  --rea-slot-available-bg-hover: #166534;
+  --rea-slot-available-text: #ffffff;
+  --rea-slot-booked-bg: #1d4ed8;
+  --rea-slot-booked-text: #ffffff;
+  --rea-slot-unavailable-bg: #f1f5f9;
+  --rea-slot-unavailable-text: #475569;
+
+  /* Buttons */
+  --rea-btn-primary-bg: #1d4ed8;
+  --rea-btn-primary-bg-hover: #1e40af;
+  --rea-btn-primary-text: #ffffff;
+  --rea-btn-ghost-border: #cbd5e1;
+  --rea-btn-ghost-bg-hover: #f1f5f9;
+
+  /* Today accent */
+  --rea-today-indicator: #1d4ed8;
+
+  /* Motion */
+  --rea-duration-fast: 100ms;
+  --rea-duration-base: 160ms;
+  --rea-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Shadows */
+  --rea-shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.08), 0 1px 2px rgba(15, 23, 42, 0.05);
+  --rea-shadow-modal: 0 24px 64px rgba(15, 23, 42, 0.14), 0 4px 16px rgba(15, 23, 42, 0.08);
+  --rea-shadow-focus: 0 0 0 3px rgba(59, 111, 245, 0.22);
+
+  /* Shape */
+  --rea-radius-sm: 0px;
+  --rea-radius-md: 0px;
+  --rea-radius-lg: 0px;
+  --rea-radius-btn: 0px;
+  --rea-radius-pill: 0px;
+
+  /* Layout */
+  --rea-cell-min-height: 88px;
+  --rea-cell-padding: 6px;
+  --rea-toolbar-height: 52px;
+  --rea-time-gutter-width: 56px;
+  --rea-week-row-height: 60px;
+
+  /* Typography */
+  --rea-font-family: inherit;
+  --rea-font-size-base: 13px;
+  --rea-font-size-sm: 11px;
+  --rea-font-size-xs: 10px;
+
+  /* Danger / destructive */
+  --rea-danger: #dc2626;
+
+  /* Backward-compat aliases for v0.1 consumers */
+  --rea-color-available: var(--rea-slot-available-bg);
+  --rea-color-available-hover: var(--rea-slot-available-bg-hover);
+  --rea-color-booked: var(--rea-slot-booked-bg);
+  --rea-color-booked-hover: var(--rea-btn-primary-bg-hover);
+  --rea-color-unavailable: var(--rea-slot-unavailable-bg);
+  --rea-color-text: var(--rea-text-primary);
+  --rea-color-text-muted: var(--rea-text-secondary);
+  --rea-color-bg: var(--rea-bg-base);
+  --rea-color-border: var(--rea-border-default);
+  --rea-color-today: var(--rea-bg-wash);
+  --rea-color-outside: var(--rea-bg-subtle);
+  --rea-color-modal-backdrop: var(--rea-bg-overlay);
+  --rea-color-modal-bg: var(--rea-bg-elevated);
+}
+
+/* ── Token definitions: Dark theme ────────────────────────── */
+.rea-calendar.rea-dark,
+[data-theme="dark"] .rea-calendar {
+  --rea-bg-base: #1e293b;
+  --rea-bg-elevated: #334155;
+  --rea-bg-subtle: #0f172a;
+  --rea-bg-wash: #1e1b4b;
+  --rea-bg-overlay: rgba(0, 0, 0, 0.6);
+
+  --rea-border-default: #475569;
+  --rea-border-focus: #60a5fa;
+
+  --rea-text-primary: #f8fafc;
+  --rea-text-secondary: #cbd5e1;
+  --rea-text-disabled: #64748b;
+  --rea-text-on-accent: #ffffff;
+
+  --rea-slot-available-bg: #166534;
+  --rea-slot-available-bg-hover: #15803d;
+  --rea-slot-available-text: #ffffff;
+  --rea-slot-booked-bg: #2563eb;
+  --rea-slot-booked-text: #ffffff;
+  --rea-slot-unavailable-bg: #334155;
+  --rea-slot-unavailable-text: #cbd5e1;
+
+  --rea-btn-primary-bg: #2563eb;
+  --rea-btn-primary-bg-hover: #3b82f6;
+  --rea-btn-primary-text: #ffffff;
+  --rea-btn-ghost-border: #475569;
+  --rea-btn-ghost-bg-hover: #1e293b;
+
+  --rea-today-indicator: #60a5fa;
+
+  --rea-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --rea-shadow-modal: 0 24px 64px rgba(0, 0, 0, 0.5), 0 4px 16px rgba(0, 0, 0, 0.3);
+  --rea-shadow-focus: 0 0 0 3px rgba(107, 154, 255, 0.28);
+
+  --rea-danger: #f87171;
+}
+
+/* ── Base reset ───────────────────────────────────────────── */
+.rea-calendar {
+  font-family: var(--rea-font-family);
+  font-size: var(--rea-font-size-base);
+  color: var(--rea-text-primary);
+  background: var(--rea-bg-base);
+  box-sizing: border-box;
+  line-height: 1.4;
+  border: 1px solid var(--rea-border-default);
+  border-radius: var(--rea-radius-lg);
+  overflow: hidden;
+}
+
+.rea-calendar *,
+.rea-calendar *::before,
+.rea-calendar *::after {
+  box-sizing: inherit;
+}
+
+/* Reduced motion — disable all transitions and animations */
+@media (prefers-reduced-motion: reduce) {
+
+  .rea-calendar *,
+  .rea-calendar *::before,
+  .rea-calendar *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   TOOLBAR
+   ═══════════════════════════════════════════════════════════ */
+.rea-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 14px;
+  height: var(--rea-toolbar-height);
+  background: var(--rea-bg-base);
+  border-bottom: 1px solid var(--rea-border-default);
+}
+
+/* Nav cluster: ‹ Today › */
+.rea-toolbar__nav {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+/* All toolbar buttons share a ghost base */
+.rea-toolbar__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  height: 30px;
+  padding: 0 10px;
+  background: transparent;
+  border: 1px solid var(--rea-btn-ghost-border);
+  border-radius: var(--rea-radius-btn);
+  color: var(--rea-text-primary);
+  font-family: var(--rea-font-family);
+  font-size: var(--rea-font-size-base);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background var(--rea-duration-fast) ease-out,
+    border-color var(--rea-duration-fast) ease-out,
+    color var(--rea-duration-fast) ease-out;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.rea-toolbar__btn:hover {
+  background: var(--rea-btn-ghost-bg-hover);
+  border-color: var(--rea-text-disabled);
+}
+
+.rea-toolbar__btn:focus-visible {
+  outline: none;
+  box-shadow: var(--rea-shadow-focus);
+}
+
+/* Chevron nav buttons — square, smaller */
+.rea-toolbar__btn--nav {
+  width: 30px;
+  padding: 0;
+}
+
+/* SVG chevron icons */
+.rea-toolbar__btn--nav svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* Title */
+.rea-toolbar__title {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--rea-text-primary);
+  flex: 1;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Segmented control: Month / Week */
+.rea-toolbar__views {
+  display: flex;
+  align-items: center;
+  background: var(--rea-bg-subtle);
+  border: 1px solid var(--rea-border-default);
+  border-radius: var(--rea-radius-btn);
+  padding: 2px;
+  gap: 0;
+}
+
+.rea-toolbar__view-btn {
+  display: inline-flex;
+  align-items: center;
+  height: 24px;
+  padding: 0 10px;
+  background: transparent;
+  border: none;
+  border-radius: calc(var(--rea-radius-btn) - 2px);
+  color: var(--rea-text-secondary);
+  font-family: var(--rea-font-family);
+  font-size: var(--rea-font-size-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background var(--rea-duration-fast) ease-out,
+    color var(--rea-duration-fast) ease-out,
+    box-shadow var(--rea-duration-fast) ease-out;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.rea-toolbar__view-btn:hover {
+  color: var(--rea-text-primary);
+}
+
+.rea-toolbar__view-btn--active,
+.rea-toolbar__view-btn[aria-pressed="true"] {
+  background: var(--rea-btn-primary-bg);
+  color: var(--rea-text-on-accent);
+  font-weight: 600;
+  box-shadow: var(--rea-shadow-sm);
+}
+
+.rea-toolbar__view-btn--active:hover,
+.rea-toolbar__view-btn[aria-pressed="true"]:hover {
+  color: var(--rea-text-on-accent);
+}
+
+
+.rea-toolbar__view-btn:focus-visible {
+  outline: none;
+  box-shadow: var(--rea-shadow-focus);
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   MONTH VIEW
+   ═══════════════════════════════════════════════════════════ */
+.rea-month-view {
+  border: 1px solid var(--rea-border-default);
+  border-radius: var(--rea-radius-lg);
+  overflow: hidden;
+  background: var(--rea-border-default);
+  /* gap color via background trick */
+}
+
+/* Day name header row */
+.rea-month-view__header {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  background: var(--rea-bg-subtle);
+  border-bottom: 1px solid var(--rea-border-default);
+  gap: 0;
+}
+
+.rea-month-view__day-name {
+  padding: 8px 6px 7px;
+  text-align: center;
+  font-size: var(--rea-font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--rea-text-secondary);
+  background: var(--rea-bg-subtle);
+}
+
+/* Calendar grid — 1px gaps render as the border-default color */
+.rea-month-view__grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 1px;
+}
+
+/* Individual cell */
+.rea-month-cell {
+  min-height: var(--rea-cell-min-height);
+  padding: var(--rea-cell-padding);
+  background: var(--rea-bg-base);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.rea-month-cell--outside {
+  background: var(--rea-bg-subtle);
+}
+
+.rea-month-cell--outside .rea-month-cell__date {
+  color: var(--rea-text-disabled);
+}
+
+.rea-month-cell--today {
+  background: var(--rea-bg-wash);
+}
+
+/* Date number */
+.rea-month-cell__date {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 2px;
+}
+
+.rea-month-cell__date-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  font-size: var(--rea-font-size-sm);
+  font-weight: 500;
+  color: var(--rea-text-primary);
+  border-radius: var(--rea-radius-pill);
+  line-height: 1;
+}
+
+.rea-month-cell--today .rea-month-cell__date-number {
+  background: var(--rea-today-indicator);
+  color: var(--rea-text-on-accent);
+  font-weight: 700;
+}
+
+/* Slots container */
+.rea-month-cell__slots {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+/* Overflow pill */
+.rea-month-cell__overflow {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  padding: 0 6px;
+  border: 1px solid var(--rea-border-default);
+  border-radius: var(--rea-radius-sm);
+  font-size: var(--rea-font-size-xs);
+  font-weight: 500;
+  color: var(--rea-text-secondary);
+  background: transparent;
+  cursor: pointer;
+  font-family: var(--rea-font-family);
+  transition: background var(--rea-duration-fast) ease-out,
+    color var(--rea-duration-fast) ease-out;
+}
+
+.rea-month-cell__overflow:hover {
+  background: var(--rea-btn-ghost-bg-hover);
+  color: var(--rea-text-primary);
+}
+
+.rea-month-cell__overflow:focus-visible {
+  outline: none;
+  box-shadow: var(--rea-shadow-focus);
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   WEEK VIEW
+   ═══════════════════════════════════════════════════════════ */
+.rea-week-view {
+  border: 1px solid var(--rea-border-default);
+  border-radius: var(--rea-radius-lg);
+  overflow: hidden;
+  background: var(--rea-bg-base);
+}
+
+/* Header row — sticky inside scroll wrapper so it stays visible while scrolling */
+.rea-week-view__header {
+  display: grid;
+  grid-template-columns: var(--rea-time-gutter-width) repeat(7, minmax(0, 1fr));
+  background: var(--rea-bg-subtle);
+  border-bottom: 1px solid var(--rea-border-default);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.rea-week-view__time-gutter-header {
+  /* spacer above time labels */
+}
+
+.rea-week-view__day-header {
+  padding: 8px 4px 6px;
+  text-align: center;
+  border-left: 1px solid var(--rea-border-default);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.rea-week-view__day-abbr {
+  font-size: var(--rea-font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--rea-text-secondary);
+  line-height: 1;
+}
+
+.rea-week-view__day-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--rea-text-primary);
+  border-radius: var(--rea-radius-pill);
+  line-height: 1;
+}
+
+.rea-week-view__day-header--today .rea-week-view__day-num {
+  background: var(--rea-today-indicator);
+  color: var(--rea-text-on-accent);
+}
+
+/* Scroll wrapper — contains both sticky header + grid so scrollbar width is shared */
+.rea-week-view__scroll {
+  overflow-y: auto;
+  max-height: 600px;
+  /* Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: var(--rea-border-default) transparent;
+}
+
+/* Chromium / Edge */
+.rea-week-view__scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.rea-week-view__scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.rea-week-view__scroll::-webkit-scrollbar-thumb {
+  background: var(--rea-border-default);
+  border-radius: 0;
+}
+.rea-week-view__scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--rea-text-secondary);
+}
+
+/* Grid — no overflow of its own; scroll container handles it */
+.rea-week-view__grid {
+}
+
+/* Hour row */
+.rea-week-view__row {
+  display: grid;
+  grid-template-columns: var(--rea-time-gutter-width) repeat(7, minmax(0, 1fr));
+  min-height: var(--rea-week-row-height);
+  border-bottom: 1px solid var(--rea-border-default);
+  position: relative;
+}
+
+/* Alternate-hour subtle tint */
+.rea-week-view__row:nth-child(even) {
+  background: rgba(0, 0, 0, 0.015);
+}
+
+.rea-calendar.rea-dark .rea-week-view__row:nth-child(even),
+[data-theme="dark"] .rea-calendar .rea-week-view__row:nth-child(even) {
+  background: rgba(255, 255, 255, 0.015);
+}
+
+/* Time label */
+.rea-week-view__time-label {
+  padding: 8px 8px 0 0;
+  font-size: var(--rea-font-size-xs);
+  color: var(--rea-text-secondary);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+/* Day cell */
+.rea-week-view__cell {
+  border-left: 1px solid var(--rea-border-default);
+  padding: 2px 3px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rea-week-view__cell--today {
+  background: var(--rea-bg-wash);
+}
+
+/* Current-time indicator — 2px line + 6px dot on left */
+.rea-week-view__now-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--rea-today-indicator);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.rea-week-view__now-line::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--rea-today-indicator);
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   SLOT BLOCKS (shared: month pills + week blocks)
+   ═══════════════════════════════════════════════════════════ */
+.rea-slot {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  min-height: 20px;
+  padding: 2px 6px;
+  border: none;
+  border-radius: var(--rea-radius-sm);
+  font-family: var(--rea-font-family);
+  font-size: var(--rea-font-size-xs);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-align: left;
+  cursor: pointer;
+  color: var(--rea-text-on-accent);
+  transition: transform var(--rea-duration-fast) ease-out,
+    box-shadow var(--rea-duration-fast) ease-out,
+    background var(--rea-duration-fast) ease-out;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  gap: 4px;
+}
+
+/* State: available */
+.rea-slot--available {
+  background: var(--rea-slot-available-bg);
+  color: var(--rea-slot-available-text);
+}
+
+.rea-slot--available:hover {
+  background: var(--rea-slot-available-bg-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--rea-shadow-sm);
+}
+
+.rea-slot--available:focus-visible {
+  outline: none;
+  box-shadow: var(--rea-shadow-focus);
+}
+
+/* State: booked */
+.rea-slot--booked {
+  background: var(--rea-slot-booked-bg);
+  color: var(--rea-slot-booked-text);
+  cursor: default;
+  opacity: 0.9;
+}
+
+/* State: unavailable */
+.rea-slot--unavailable {
+  background: var(--rea-slot-unavailable-bg);
+  color: var(--rea-slot-unavailable-text);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Booked-by label inside slot */
+.rea-slot__label {
+  font-size: var(--rea-font-size-xs);
+  font-weight: 400;
+  opacity: 0.82;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 0;
+}
+
+/* Week view slot variant — left-border block style */
+.rea-week-view .rea-slot {
+  min-height: 28px;
+  padding: 3px 6px 3px 8px;
+  border-left: 3px solid transparent;
+  border-radius: 0 var(--rea-radius-sm) var(--rea-radius-sm) 0;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+}
+
+.rea-week-view .rea-slot--available {
+  border-left-color: var(--rea-slot-available-bg);
+  background: color-mix(in srgb, var(--rea-slot-available-bg) 14%, transparent);
+  color: var(--rea-slot-available-bg);
+}
+
+.rea-calendar.rea-dark .rea-week-view .rea-slot--available,
+[data-theme="dark"] .rea-calendar .rea-week-view .rea-slot--available {
+  background: color-mix(in srgb, var(--rea-slot-available-bg) 20%, transparent);
+}
+
+.rea-week-view .rea-slot--available:hover {
+  background: color-mix(in srgb, var(--rea-slot-available-bg) 22%, transparent);
+}
+
+.rea-week-view .rea-slot--booked {
+  border-left-color: var(--rea-slot-booked-bg);
+  background: color-mix(in srgb, var(--rea-slot-booked-bg) 14%, transparent);
+  color: var(--rea-slot-booked-bg);
+}
+
+.rea-calendar.rea-dark .rea-week-view .rea-slot--booked,
+[data-theme="dark"] .rea-calendar .rea-week-view .rea-slot--booked {
+  background: color-mix(in srgb, var(--rea-slot-booked-bg) 20%, transparent);
+}
+
+.rea-week-view .rea-slot--unavailable {
+  border-left-color: var(--rea-slot-unavailable-text);
+  background: var(--rea-slot-unavailable-bg);
+  color: var(--rea-slot-unavailable-text);
+}
+
+.rea-week-view .rea-slot__time {
+  font-weight: 600;
+  font-size: var(--rea-font-size-xs);
+  line-height: 1.2;
+}
+
+.rea-week-view .rea-slot__label {
+  font-size: var(--rea-font-size-xs);
+  font-weight: 400;
+  opacity: 0.75;
+  line-height: 1.2;
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   MODAL — shared backdrop + panel
+   ═══════════════════════════════════════════════════════════ */
+.rea-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: var(--rea-bg-overlay);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 16px;
+  animation: rea-backdrop-in var(--rea-duration-base) ease-out both;
+}
+
+@keyframes rea-backdrop-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.rea-modal {
+  background: var(--rea-bg-elevated);
+  border: 1px solid var(--rea-border-default);
+  border-radius: var(--rea-radius-lg);
+  box-shadow: var(--rea-shadow-modal);
+  padding: 28px;
+  width: 100%;
+  max-width: 420px;
+  position: relative;
+  animation: rea-modal-in var(--rea-duration-base) var(--rea-ease-out) both;
+}
+
+@keyframes rea-modal-in {
+  from {
+    opacity: 0;
+    transform: scale(0.97) translateY(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Close button */
+.rea-modal__close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  border-radius: var(--rea-radius-md);
+  color: var(--rea-text-secondary);
+  cursor: pointer;
+  padding: 0;
+  transition: background var(--rea-duration-fast) ease-out,
+    color var(--rea-duration-fast) ease-out;
+}
+
+.rea-modal__close:hover {
+  background: var(--rea-btn-ghost-bg-hover);
+  color: var(--rea-text-primary);
+}
+
+.rea-modal__close:focus-visible {
+  outline: none;
+  box-shadow: var(--rea-shadow-focus);
+}
+
+.rea-modal__close svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* Slot context badge */
+.rea-modal__slot-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 24px;
+  padding: 0 9px;
+  background: color-mix(in srgb, var(--rea-slot-available-bg) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--rea-slot-available-bg) 30%, transparent);
+  border-radius: var(--rea-radius-pill);
+  color: var(--rea-slot-available-bg);
+  font-size: var(--rea-font-size-sm);
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+.rea-calendar.rea-dark .rea-modal__slot-badge,
+[data-theme="dark"] .rea-calendar .rea-modal__slot-badge {
+  background: color-mix(in srgb, var(--rea-slot-available-bg) 18%, transparent);
+  color: var(--rea-slot-available-bg-hover);
+}
+
+.rea-modal__slot-badge svg {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+}
+
+/* Modal title */
+.rea-modal__title {
+  margin: 0 0 20px;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--rea-text-primary);
+  line-height: 1.3;
+  padding-right: 32px;
+  /* clear close btn */
+}
+
+/* Divider */
+.rea-modal__divider {
+  height: 1px;
+  background: var(--rea-border-default);
+  margin: 0 0 20px;
+}
+
+/* Form */
+.rea-modal__form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.rea-modal__label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: var(--rea-font-size-sm);
+  font-weight: 600;
+  color: var(--rea-text-secondary);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.rea-modal__input,
+.rea-modal__textarea,
+.rea-modal__select {
+  padding: 8px 10px;
+  background: var(--rea-bg-base);
+  border: 1.5px solid var(--rea-border-default);
+  border-radius: var(--rea-radius-md);
+  font-family: var(--rea-font-family);
+  font-size: var(--rea-font-size-base);
+  color: var(--rea-text-primary);
+  outline: none;
+  transition: border-color var(--rea-duration-fast) ease-out,
+    box-shadow var(--rea-duration-fast) ease-out;
+  width: 100%;
+}
+
+.rea-modal__input::placeholder,
+.rea-modal__textarea::placeholder {
+  color: var(--rea-text-disabled);
+}
+
+.rea-modal__input:focus,
+.rea-modal__textarea:focus,
+.rea-modal__select:focus {
+  border-color: var(--rea-border-focus);
+  box-shadow: var(--rea-shadow-focus);
+}
+
+.rea-modal__textarea {
+  resize: vertical;
+  min-height: 80px;
+  line-height: 1.5;
+}
+
+.rea-modal__select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 30px;
+}
+
+/* Actions row */
+.rea-modal__actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 6px;
+}
+
+/* Ghost / cancel button */
+.rea-modal__btn-cancel {
+  display: inline-flex;
+  align-items: center;
+  height: 36px;
+  padding: 0 16px;
+  background: transparent;
+  border: 1.5px solid var(--rea-btn-ghost-border);
+  border-radius: var(--rea-radius-btn);
+  color: var(--rea-text-secondary);
+  font-family: var(--rea-font-family);
+  font-size: var(--rea-font-size-base);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background var(--rea-duration-fast) ease-out,
+    color var(--rea-duration-fast) ease-out,
+    border-color var(--rea-duration-fast) ease-out;
+}
+
+.rea-modal__btn-cancel:hover {
+  background: var(--rea-btn-ghost-bg-hover);
+  color: var(--rea-text-primary);
+  border-color: var(--rea-text-disabled);
+}
+
+.rea-modal__btn-cancel:focus-visible {
+  outline: none;
+  box-shadow: var(--rea-shadow-focus);
+}
+
+/* Primary / confirm button */
+.rea-modal__btn-confirm {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 18px;
+  background: var(--rea-btn-primary-bg);
+  border: none;
+  border-radius: var(--rea-radius-btn);
+  color: var(--rea-btn-primary-text);
+  font-family: var(--rea-font-family);
+  font-size: var(--rea-font-size-base);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--rea-duration-fast) ease-out,
+    transform var(--rea-duration-fast) ease-out,
+    box-shadow var(--rea-duration-fast) ease-out;
+}
+
+.rea-modal__btn-confirm:hover {
+  background: var(--rea-btn-primary-bg-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--rea-shadow-sm);
+}
+
+.rea-modal__btn-confirm:focus-visible {
+  outline: none;
+  box-shadow: var(--rea-shadow-focus);
+}
+
+.rea-modal__btn-confirm svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+/* 2-col grid inside modal (date range, time range) */
+.rea-modal__grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* Day selector pills */
+.rea-modal__days-grid {
+  display: flex;
+  gap: 4px;
+  margin-top: 5px;
+  flex-wrap: wrap;
+}
+
+.rea-modal__day-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 32px;
+  padding: 0 8px;
+  background: transparent;
+  border: 1.5px solid var(--rea-btn-ghost-border);
+  border-radius: var(--rea-radius-md);
+  color: var(--rea-text-secondary);
+  font-family: var(--rea-font-family);
+  font-size: var(--rea-font-size-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background var(--rea-duration-fast) ease-out,
+    color var(--rea-duration-fast) ease-out,
+    border-color var(--rea-duration-fast) ease-out,
+    box-shadow var(--rea-duration-fast) ease-out;
+}
+
+.rea-modal__day-btn:hover {
+  background: var(--rea-btn-ghost-bg-hover);
+  color: var(--rea-text-primary);
+  border-color: var(--rea-text-disabled);
+}
+
+.rea-modal__day-btn--active {
+  background: var(--rea-btn-primary-bg) !important;
+  color: var(--rea-btn-primary-text) !important;
+  border-color: var(--rea-btn-primary-bg) !important;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15);
+  font-weight: 600;
+}
+
+.rea-modal__day-btn:focus-visible {
+  outline: none;
+  box-shadow: var(--rea-shadow-focus);
+}
+
+/* Duration segmented control */
+.rea-modal__duration-track {
+  display: flex;
+  align-items: center;
+  background: var(--rea-bg-subtle);
+  border: 1.5px solid var(--rea-border-default);
+  border-radius: var(--rea-radius-md);
+  padding: 2px;
+  gap: 0;
+  margin-top: 5px;
+  flex-wrap: wrap;
+}
+
+.rea-modal__duration-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  min-width: 36px;
+  height: 28px;
+  padding: 0 6px;
+  background: transparent;
+  border: none;
+  border-radius: calc(var(--rea-radius-md) - 2px);
+  color: var(--rea-text-secondary);
+  font-family: var(--rea-font-family);
+  font-size: var(--rea-font-size-sm);
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background var(--rea-duration-fast) ease-out,
+    color var(--rea-duration-fast) ease-out,
+    box-shadow var(--rea-duration-fast) ease-out;
+}
+
+.rea-modal__duration-btn:hover {
+  color: var(--rea-text-primary);
+}
+
+.rea-modal__duration-btn--active {
+  background: var(--rea-bg-elevated);
+  color: var(--rea-text-primary);
+  font-weight: 600;
+  box-shadow: var(--rea-shadow-sm);
+}
+
+.rea-modal__duration-btn:focus-visible {
+  outline: none;
+  box-shadow: var(--rea-shadow-focus);
+}
+
+/* Custom duration row: number input + "min" label */
+.rea-modal__duration-custom {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.rea-modal__input--custom-duration {
+  width: 72px !important;
+  text-align: center;
+}
+
+.rea-modal__duration-unit {
+  font-size: var(--rea-font-size-sm);
+  color: var(--rea-text-secondary);
+  font-weight: 500;
+}
+
+/* Generate / primary-full button */
+.rea-modal__btn-generate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  width: 100%;
+  height: 40px;
+  background: var(--rea-btn-primary-bg);
+  border: none;
+  border-radius: var(--rea-radius-btn);
+  color: var(--rea-btn-primary-text);
+  font-family: var(--rea-font-family);
+  font-size: var(--rea-font-size-base);
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 4px;
+  transition: background var(--rea-duration-fast) ease-out,
+    transform var(--rea-duration-fast) ease-out,
+    box-shadow var(--rea-duration-fast) ease-out;
+}
+
+.rea-modal__btn-generate:hover {
+  background: var(--rea-btn-primary-bg-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--rea-shadow-sm);
+}
+
+.rea-modal__btn-generate:focus-visible {
+  outline: none;
+  box-shadow: var(--rea-shadow-focus);
+}
+
+/* Legacy — keep rea-duration-picker working for any custom usage */
+.rea-duration-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rea-duration-picker__options {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.rea-duration-btn {
+  padding: 6px 16px;
+  border: 1px solid var(--rea-border-default);
+  border-radius: var(--rea-radius-btn);
+  background: none;
+  cursor: pointer;
+  font-size: var(--rea-font-size-sm);
+  font-family: var(--rea-font-family);
+  color: var(--rea-text-primary);
+  transition: background var(--rea-duration-fast) ease-out;
+}
+
+.rea-duration-btn--active {
+  background: var(--rea-btn-primary-bg);
+  color: var(--rea-btn-primary-text);
+  border-color: var(--rea-btn-primary-bg);
+}
+
+/* ==================== ADMIN PANEL ==================== */
+
+.rea-admin {
+  background: var(--rea-bg-base);
+  border: 1px solid var(--rea-border-default);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  font-family: var(--rea-font-family);
+  font-size: var(--rea-font-size-base);
+  color: var(--rea-text-primary);
+}
+
+.rea-admin__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rea-admin__title {
+  font-size: var(--rea-font-size-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--rea-text-primary);
+}
+
+/* Quick Generate button */
+.rea-admin__btn-generate {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: var(--rea-btn-primary-bg);
+  color: var(--rea-btn-primary-text);
+  font-size: var(--rea-font-size-base);
+  font-weight: 600;
+  font-family: var(--rea-font-family);
+  border: none;
+  cursor: pointer;
+  transition: background var(--rea-duration-fast) ease-out;
+}
+
+.rea-admin__btn-generate:hover {
+  background: var(--rea-btn-primary-bg-hover);
+}
+
+/* Collapsible sections */
+.rea-admin__section {
+  border-bottom: 1px solid var(--rea-border-default);
+  padding-bottom: 20px;
+}
+
+.rea-admin__section:last-of-type {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.rea-admin__section-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  list-style: none;
+  font-size: var(--rea-font-size-sm);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--rea-text-secondary);
+  user-select: none;
+}
+
+.rea-admin__section-summary::-webkit-details-marker {
+  display: none;
+}
+
+.rea-admin__section-summary:hover {
+  color: var(--rea-text-primary);
+}
+
+.rea-admin__chevron {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  transition: transform var(--rea-duration-fast) ease-out;
+}
+
+details[open] .rea-admin__chevron {
+  transform: rotate(180deg);
+}
+
+.rea-admin__section-body {
+  margin-top: 16px;
+}
+
+/* Forms */
+.rea-admin__form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+.rea-admin__field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rea-admin__field-label {
+  font-size: var(--rea-font-size-sm);
+  color: var(--rea-text-secondary);
+}
+
+.rea-admin__input {
+  background: var(--rea-bg-subtle);
+  border: 1px solid var(--rea-border-default);
+  padding: 8px 12px;
+  font-size: var(--rea-font-size-base);
+  font-family: var(--rea-font-family);
+  color: var(--rea-text-primary);
+  outline: none;
+  transition: border-color var(--rea-duration-fast) ease-out,
+    box-shadow var(--rea-duration-fast) ease-out;
+}
+
+.rea-admin__input:focus {
+  border-color: var(--rea-border-focus);
+  box-shadow: var(--rea-shadow-focus);
+}
+
+.rea-admin__input--sm {
+  width: 72px;
+}
+
+.rea-admin__btn-add {
+  padding: 8px 20px;
+  background: var(--rea-bg-subtle);
+  border: 1px solid var(--rea-border-default);
+  color: var(--rea-text-primary);
+  font-size: var(--rea-font-size-base);
+  font-weight: 500;
+  font-family: var(--rea-font-family);
+  cursor: pointer;
+  transition: background var(--rea-duration-fast) ease-out;
+}
+
+.rea-admin__btn-add:hover {
+  background: var(--rea-btn-ghost-bg-hover);
+}
+
+.rea-admin__error {
+  font-size: var(--rea-font-size-sm);
+  color: var(--rea-danger);
+  margin-top: 8px;
+}
+
+/* Hour range row */
+.rea-admin__hour-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+.rea-admin__hour-hint {
+  font-size: var(--rea-font-size-sm);
+  color: var(--rea-text-secondary);
+  padding-bottom: 8px;
+}
+
+/* Tables */
+.rea-admin__table-wrap {
+  overflow-x: auto;
+  max-height: 260px;
+  overflow-y: auto;
+  border: 1px solid var(--rea-border-default);
+  background: var(--rea-bg-subtle);
+  scrollbar-width: thin;
+  scrollbar-color: var(--rea-border-default) transparent;
+}
+
+.rea-admin__table-wrap::-webkit-scrollbar { width: 6px; height: 6px; }
+.rea-admin__table-wrap::-webkit-scrollbar-track { background: transparent; }
+.rea-admin__table-wrap::-webkit-scrollbar-thumb { background: var(--rea-border-default); }
+.rea-admin__table-wrap::-webkit-scrollbar-thumb:hover { background: var(--rea-text-secondary); }
+
+.rea-admin__table {
+  width: 100%;
+  font-size: var(--rea-font-size-base);
+  font-family: var(--rea-font-family);
+  text-align: left;
+  border-collapse: collapse;
+}
+
+.rea-admin__table thead {
+  position: sticky;
+  top: 0;
+  background: var(--rea-bg-subtle);
+}
+
+.rea-admin__table th {
+  padding: 8px 12px;
+  font-weight: 500;
+  color: var(--rea-text-secondary);
+  border-bottom: 1px solid var(--rea-border-default);
+  white-space: nowrap;
+}
+
+.rea-admin__table td {
+  padding: 8px 12px;
+  color: var(--rea-text-primary);
+  border-bottom: 1px solid var(--rea-border-default);
+}
+
+.rea-admin__table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.rea-admin__table tbody tr:hover td {
+  background: var(--rea-bg-wash);
+}
+
+.rea-admin__td--truncate {
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--rea-text-secondary);
+}
+
+/* Badges */
+.rea-admin__badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--rea-font-size-sm);
+  font-weight: 500;
+  padding: 2px 8px;
+}
+
+.rea-admin__badge--available {
+  background: color-mix(in srgb, var(--rea-slot-available-bg) 15%, transparent);
+  color: var(--rea-slot-available-bg);
+}
+
+.rea-admin__badge--booked {
+  background: color-mix(in srgb, var(--rea-slot-booked-bg) 15%, transparent);
+  color: var(--rea-slot-booked-bg);
+}
+
+/* Danger action button */
+.rea-admin__btn-danger {
+  font-size: var(--rea-font-size-sm);
+  font-family: var(--rea-font-family);
+  color: var(--rea-danger);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: opacity var(--rea-duration-fast) ease-out;
+}
+
+.rea-admin__btn-danger:hover {
+  opacity: 0.7;
+}
+
+/* Empty state */
+.rea-admin__empty {
+  font-size: var(--rea-font-size-base);
+  color: var(--rea-text-secondary);
+}
+
+/* Checkboxes */
+.rea-admin__th--check,
+.rea-admin__td--check {
+  width: 36px;
+  padding: 8px 4px 8px 12px;
+}
+
+.rea-admin__checkbox {
+  width: 14px;
+  height: 14px;
+  accent-color: var(--rea-btn-primary-bg);
+  cursor: pointer;
+}
+
+/* Selected row highlight */
+.rea-admin__tr--selected td {
+  background: color-mix(in srgb, var(--rea-btn-primary-bg) 8%, transparent);
+}
+
+/* Bulk action bar */
+.rea-admin__bulk-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  background: color-mix(in srgb, var(--rea-btn-primary-bg) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--rea-btn-primary-bg) 25%, transparent);
+  font-size: var(--rea-font-size-sm);
+}
+
+.rea-admin__bulk-count {
+  color: var(--rea-text-secondary);
+  font-weight: 500;
+  flex: 1;
+}
+
+.rea-admin__btn-bulk-danger {
+  font-size: var(--rea-font-size-sm);
+  font-family: var(--rea-font-family);
+  padding: 4px 10px;
+  background: none;
+  border: 1px solid var(--rea-danger);
+  color: var(--rea-danger);
+  cursor: pointer;
+  transition: background var(--rea-duration-fast) ease-out;
+}
+
+.rea-admin__btn-bulk-danger:hover {
+  background: color-mix(in srgb, var(--rea-danger) 10%, transparent);
+}
+
+.rea-admin__btn-bulk-clear {
+  font-size: var(--rea-font-size-sm);
+  font-family: var(--rea-font-family);
+  padding: 4px 10px;
+  background: none;
+  border: 1px solid var(--rea-border-default);
+  color: var(--rea-text-secondary);
+  cursor: pointer;
+  transition: background var(--rea-duration-fast) ease-out;
+}
+
+.rea-admin__btn-bulk-clear:hover {
+  background: var(--rea-btn-ghost-bg-hover);
+}
+
+/* Native date/time picker icons — light by default, dark in dark theme */
+.rea-admin__input[type="date"],
+.rea-admin__input[type="time"] {
+  color-scheme: light;
+}
+
+.rea-dark .rea-admin__input[type="date"],
+.rea-dark .rea-admin__input[type="time"] {
+  color-scheme: dark;
+}
+
+/* Same fix for QuickGenerateModal date/time inputs */
+.rea-dark .rea-modal__input[type="date"],
+.rea-dark .rea-modal__input[type="time"] {
+  color-scheme: dark;
+}
+
+.rea-modal__input[type="date"],
+.rea-modal__input[type="time"] {
+  color-scheme: light;
+}

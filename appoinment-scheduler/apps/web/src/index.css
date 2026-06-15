@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+/* Class-based dark mode for Tailwind v4 */
+@variant dark (&:is(.dark *));
+
+/* Smooth theme transitions on the root */
+html {
+  transition: background-color 200ms ease-out, color 200ms ease-out;
+}
