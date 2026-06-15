@@ -10,9 +10,10 @@ type Props = {
   slots: Slot[]
   isCurrentMonth: boolean
   isToday: boolean
+  isOutOfRange?: boolean
 }
 
-export function MonthCell({ date, slots, isCurrentMonth, isToday }: Props) {
+export function MonthCell({ date, slots, isCurrentMonth, isToday, isOutOfRange = false }: Props) {
   const { onSlotClick, headless, locale, setView, goToToday: _goToToday, currentDate: _cd } = useCalendarContext()
 
   const visibleSlots = slots.slice(0, MAX_VISIBLE)
@@ -50,6 +51,7 @@ export function MonthCell({ date, slots, isCurrentMonth, isToday }: Props) {
     'rea-month-cell',
     !isCurrentMonth && 'rea-month-cell--outside',
     isToday && 'rea-month-cell--today',
+    isOutOfRange && 'rea-month-cell--out-of-range',
   ]
     .filter(Boolean)
     .join(' ')

@@ -7,6 +7,9 @@ import {
   format,
   isSameMonth,
   isToday,
+  parseISO,
+  isBefore,
+  isAfter,
 } from 'date-fns'
 import { useCalendarContext } from '../Calendar/CalendarContext'
 import { useSlotsByDate } from '../../hooks/useSlotsByDate'
@@ -16,7 +19,7 @@ const DAY_NAMES_SUN = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 const DAY_NAMES_MON = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
 export function MonthView() {
-  const { view, currentDate, slots, weekStartsOn, headless } = useCalendarContext()
+  const { view, currentDate, slots, weekStartsOn, headless, startDate, endDate } = useCalendarContext()
   const slotsByDate = useSlotsByDate(slots)
 
   if (view !== 'month') return null
@@ -40,13 +43,20 @@ export function MonthView() {
       <div className={headless ? undefined : 'rea-month-view__grid'}>
         {days.map(day => {
           const key = format(day, 'yyyy-MM-dd')
+          const rangeStart = startDate ? parseISO(startDate) : null
+          const rangeEnd = endDate ? parseISO(endDate) : null
+          const isOutOfRange = Boolean(
+            (rangeStart && isBefore(day, rangeStart)) ||
+            (rangeEnd && isAfter(day, rangeEnd))
+          )
           return (
             <MonthCell
               key={key}
               date={day}
-              slots={slotsByDate[key] ?? []}
+              slots={isOutOfRange ? [] : (slotsByDate[key] ?? [])}
               isCurrentMonth={isSameMonth(day, currentDate)}
               isToday={isToday(day)}
+              isOutOfRange={isOutOfRange}
             />
           )
         })}

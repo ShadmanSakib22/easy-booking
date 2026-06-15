@@ -357,6 +357,15 @@
   background: var(--rea-bg-wash);
 }
 
+.rea-month-cell--out-of-range {
+  opacity: 0.4;
+  background: var(--rea-cell-disabled-bg, #f1f1f1);
+}
+
+.rea-month-cell--out-of-range .rea-month-cell__date-number {
+  color: var(--rea-text-muted, #999);
+}
+
 /* Date number */
 .rea-month-cell__date {
   display: flex;
