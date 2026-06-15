@@ -162,25 +162,87 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| PKG-01–05 | Phase 1 | Pending |
-| AUTH-01–08 | Phase 2 | Pending |
-| CAL-01–09 | Phase 3 | Pending |
-| AI-01–04 | Phase 4 | Pending |
-| BOOK-01–07 | Phase 5 | Pending |
-| INV-01–05 | Phase 6 | Pending |
-| PAY-01–07 | Phase 7 | Pending |
-| SMTP-01–06 | Phase 8 | Pending |
-| GCAL-01–04 | Phase 9 | Pending |
-| DASH-01–05 | Phase 10 | Pending |
-| PROF-01–04 | Phase 11 | Pending |
-| ADMIN-01–06 | Phase 12 | Pending |
-| LAND-01–03 | Phase 13 | Pending |
+| PKG-01 | Phase 1: Package | Pending |
+| PKG-02 | Phase 1: Package | Pending |
+| PKG-03 | Phase 1: Package | Pending |
+| PKG-04 | Phase 1: Package | Pending |
+| PKG-05 | Phase 1: Package | Pending |
+| AUTH-01 | Phase 3: Authentication | Pending |
+| AUTH-02 | Phase 3: Authentication | Pending |
+| AUTH-03 | Phase 3: Authentication | Pending |
+| AUTH-04 | Phase 3: Authentication | Pending |
+| AUTH-05 | Phase 3: Authentication | Pending |
+| AUTH-06 | Phase 3: Authentication | Pending |
+| AUTH-07 | Phase 3: Authentication | Pending |
+| AUTH-08 | Phase 3: Authentication | Pending |
+| CAL-01 | Phase 4: Calendar Management | Pending |
+| CAL-02 | Phase 4: Calendar Management | Pending |
+| CAL-03 | Phase 4: Calendar Management | Pending |
+| CAL-04 | Phase 4: Calendar Management | Pending |
+| CAL-05 | Phase 4: Calendar Management | Pending |
+| CAL-06 | Phase 4: Calendar Management | Pending |
+| CAL-07 | Phase 4: Calendar Management | Pending |
+| CAL-08 | Phase 4: Calendar Management | Pending |
+| CAL-09 | Phase 4: Calendar Management | Pending |
+| BOOK-01 | Phase 5: Public Booking Flow | Pending |
+| BOOK-02 | Phase 5: Public Booking Flow | Pending |
+| BOOK-03 | Phase 5: Public Booking Flow | Pending |
+| BOOK-04 | Phase 5: Public Booking Flow | Pending |
+| BOOK-05 | Phase 5: Public Booking Flow | Pending |
+| BOOK-06 | Phase 5: Public Booking Flow | Pending |
+| BOOK-07 | Phase 5: Public Booking Flow | Pending |
+| SMTP-01 | Phase 6: Email & SMTP | Pending |
+| SMTP-02 | Phase 6: Email & SMTP | Pending |
+| SMTP-03 | Phase 6: Email & SMTP | Pending |
+| SMTP-04 | Phase 6: Email & SMTP | Pending |
+| SMTP-05 | Phase 6: Email & SMTP | Pending |
+| SMTP-06 | Phase 6: Email & SMTP | Pending |
+| INV-01 | Phase 7: Invite-Only Calendars | Pending |
+| INV-02 | Phase 7: Invite-Only Calendars | Pending |
+| INV-03 | Phase 7: Invite-Only Calendars | Pending |
+| INV-04 | Phase 7: Invite-Only Calendars | Pending |
+| INV-05 | Phase 7: Invite-Only Calendars | Pending |
+| PAY-01 | Phase 8: Paid Booking | Pending |
+| PAY-02 | Phase 8: Paid Booking | Pending |
+| PAY-03 | Phase 8: Paid Booking | Pending |
+| PAY-04 | Phase 8: Paid Booking | Pending |
+| PAY-05 | Phase 8: Paid Booking | Pending |
+| PAY-06 | Phase 8: Paid Booking | Pending |
+| PAY-07 | Phase 8: Paid Booking | Pending |
+| AI-01 | Phase 9: AI Schedule Creation | Pending |
+| AI-02 | Phase 9: AI Schedule Creation | Pending |
+| AI-03 | Phase 9: AI Schedule Creation | Pending |
+| AI-04 | Phase 9: AI Schedule Creation | Pending |
+| GCAL-01 | Phase 10: Google Calendar Sync | Pending |
+| GCAL-02 | Phase 10: Google Calendar Sync | Pending |
+| GCAL-03 | Phase 10: Google Calendar Sync | Pending |
+| GCAL-04 | Phase 10: Google Calendar Sync | Pending |
+| DASH-01 | Phase 11: Creator Dashboard & Profiles | Pending |
+| DASH-02 | Phase 11: Creator Dashboard & Profiles | Pending |
+| DASH-03 | Phase 11: Creator Dashboard & Profiles | Pending |
+| DASH-04 | Phase 11: Creator Dashboard & Profiles | Pending |
+| DASH-05 | Phase 11: Creator Dashboard & Profiles | Pending |
+| PROF-01 | Phase 11: Creator Dashboard & Profiles | Pending |
+| PROF-02 | Phase 11: Creator Dashboard & Profiles | Pending |
+| PROF-03 | Phase 11: Creator Dashboard & Profiles | Pending |
+| PROF-04 | Phase 11: Creator Dashboard & Profiles | Pending |
+| ADMIN-01 | Phase 12: Admin Panel | Pending |
+| ADMIN-02 | Phase 12: Admin Panel | Pending |
+| ADMIN-03 | Phase 12: Admin Panel | Pending |
+| ADMIN-04 | Phase 12: Admin Panel | Pending |
+| ADMIN-05 | Phase 12: Admin Panel | Pending |
+| ADMIN-06 | Phase 12: Admin Panel | Pending |
+| LAND-01 | Phase 13: Landing Page | Pending |
+| LAND-02 | Phase 13: Landing Page | Pending |
+| LAND-03 | Phase 13: Landing Page | Pending |
 
 **Coverage:**
-- v1 requirements: 68 total
-- Mapped to phases: 68
+- v1 requirements: 73 total (PKG: 5, AUTH: 8, CAL: 9, AI: 4, BOOK: 7, INV: 5, PAY: 7, SMTP: 6, GCAL: 4, DASH: 5, PROF: 4, ADMIN: 6, LAND: 3)
+- Mapped to phases: 73
 - Unmapped: 0 ✓
+
+**Note on Phase 2 (Firebase Foundation):** This is an infrastructure phase with no standalone requirement IDs. Its outputs (Firebase project, Firestore schema, security rules, local emulator) are prerequisites for AUTH-01–08, BOOK-02, BOOK-05, and all data-writing features. It has explicit success criteria in ROADMAP.md.
 
 ---
 *Requirements defined: 2026-06-16*
-*Last updated: 2026-06-16 after initial definition*
+*Last updated: 2026-06-16 — traceability updated after roadmap finalization*
