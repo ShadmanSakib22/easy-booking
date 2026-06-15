@@ -15,6 +15,8 @@ type CalendarProps = {
   theme?: CalendarTheme
   weekHourStart?: number
   weekHourEnd?: number
+  startDate?: string
+  endDate?: string
 }
 
 export function CalendarRoot({
@@ -29,8 +31,10 @@ export function CalendarRoot({
   theme = 'light',
   weekHourStart = 7,
   weekHourEnd = 20,
+  startDate,
+  endDate,
 }: CalendarProps) {
-  const state = useCalendarState(defaultView)
+  const state = useCalendarState(defaultView, startDate)
 
   // Resolve effective theme for auto mode
   const getEffectiveTheme = (): 'light' | 'dark' => {
@@ -66,7 +70,7 @@ export function CalendarRoot({
 
   return (
     <CalendarContext.Provider
-      value={{ slots, onSlotClick, onBook, headless, weekStartsOn, locale, theme: effectiveTheme, weekHourStart, weekHourEnd, ...state }}
+      value={{ slots, onSlotClick, onBook, headless, weekStartsOn, locale, theme: effectiveTheme, weekHourStart, weekHourEnd, startDate, endDate, ...state }}
     >
       <div className={rootClass}>{children}</div>
     </CalendarContext.Provider>

@@ -17,6 +17,8 @@ export type CalendarContextValue = {
   theme: 'light' | 'dark'
   weekHourStart: number
   weekHourEnd: number
+  startDate?: string
+  endDate?: string
 }
 
 export const CalendarContext = createContext<CalendarContextValue | null>(null)

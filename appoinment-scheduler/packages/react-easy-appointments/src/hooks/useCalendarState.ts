@@ -1,10 +1,12 @@
 import { useState } from 'react'
-import { addMonths, subMonths, addWeeks, subWeeks } from 'date-fns'
+import { addMonths, subMonths, addWeeks, subWeeks, parseISO } from 'date-fns'
 import type { CalendarView } from '../types'
 
-export function useCalendarState(defaultView: CalendarView = 'month') {
+export function useCalendarState(defaultView: CalendarView = 'month', startDate?: string) {
   const [view, setView] = useState<CalendarView>(defaultView)
-  const [currentDate, setCurrentDate] = useState(() => new Date())
+  const [currentDate, setCurrentDate] = useState(() =>
+    startDate ? parseISO(startDate) : new Date()
+  )
 
   const goToPrev = () =>
     setCurrentDate(d => (view === 'month' ? subMonths(d, 1) : subWeeks(d, 1)))

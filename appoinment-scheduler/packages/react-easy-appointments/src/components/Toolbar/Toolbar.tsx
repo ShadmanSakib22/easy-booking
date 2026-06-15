@@ -1,8 +1,8 @@
-import { format } from 'date-fns'
+import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, isBefore, isAfter, parseISO } from 'date-fns'
 import { useCalendarContext } from '../Calendar/CalendarContext'
 
 export function Toolbar() {
-  const { view, setView, currentDate, goToPrev, goToNext, goToToday, headless } =
+  const { view, setView, currentDate, goToPrev, goToNext, goToToday, headless, weekStartsOn, startDate, endDate } =
     useCalendarContext()
 
   const title =
@@ -10,13 +10,22 @@ export function Toolbar() {
       ? format(currentDate, 'MMMM yyyy')
       : `Week of ${format(currentDate, 'MMM d, yyyy')}`
 
+  const viewStart = view === 'month'
+    ? startOfMonth(currentDate)
+    : startOfWeek(currentDate, { weekStartsOn })
+  const viewEnd = view === 'month'
+    ? endOfMonth(currentDate)
+    : endOfWeek(currentDate, { weekStartsOn })
+  const isPrevDisabled = startDate ? !isAfter(viewStart, parseISO(startDate)) : false
+  const isNextDisabled = endDate ? !isBefore(viewEnd, parseISO(endDate)) : false
+
   if (headless) {
     return (
       <div>
         <div>
-          <button onClick={goToPrev} aria-label="Previous">‹</button>
+          <button onClick={goToPrev} aria-label="Previous" disabled={isPrevDisabled}>‹</button>
           <button onClick={goToToday}>Today</button>
-          <button onClick={goToNext} aria-label="Next">›</button>
+          <button onClick={goToNext} aria-label="Next" disabled={isNextDisabled}>›</button>
         </div>
         <span>{title}</span>
         <div>
@@ -47,6 +56,7 @@ export function Toolbar() {
           className="rea-toolbar__btn rea-toolbar__btn--nav"
           onClick={goToPrev}
           aria-label="Previous"
+          disabled={isPrevDisabled}
         >
           <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M10 12L6 8l4-4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
@@ -59,6 +69,7 @@ export function Toolbar() {
           className="rea-toolbar__btn rea-toolbar__btn--nav"
           onClick={goToNext}
           aria-label="Next"
+          disabled={isNextDisabled}
         >
           <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M6 12l4-4-4-4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
