@@ -38,7 +38,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Host app can pass external slot state (available / pending / booked) and the package reflects changes in real-time without page reload
   4. Package emits a slot-selected event that the host app can intercept and use to trigger its own booking modal or flow
   5. Package renders correctly under Next.js SSR — no hydration mismatch errors in the browser console
-**Plans**: TBD
+**Plans**: 4 plans
+- [ ] 01-PLAN-00.md — Wave 0: create failing test stubs (utilities, date-range, SSR)
+- [ ] 01-PLAN-01.md — UTC Slot type, formatSlotTime + deriveDate utilities, pending status, display-component migration
+- [ ] 01-PLAN-02.md — Date-range props, boundary-disabled toolbar nav, out-of-range greying
+- [ ] 01-PLAN-03.md — SSR-safe theme fix, onSlotClick/real-time verification, demo app migration, 2.0.0 build
 
 ### Phase 2: Firebase Foundation
 **Goal**: Firebase project is configured, Firestore data model is defined with security rules, and the Next.js app connects to Firebase — so all subsequent phases have a reliable, secure backend to write against
@@ -193,7 +197,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Package | 0/TBD | Not started | - |
+| 1. Package | 0/4 | Planned | - |
 | 2. Firebase Foundation | 0/TBD | Not started | - |
 | 3. Authentication | 0/TBD | Not started | - |
 | 4. Calendar Management | 0/TBD | Not started | - |
