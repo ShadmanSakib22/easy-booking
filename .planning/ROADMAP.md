@@ -41,7 +41,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 4 plans
 - [ ] 01-PLAN-00.md — Wave 0: create failing test stubs (utilities, date-range, SSR)
 - [ ] 01-PLAN-01.md — UTC Slot type, formatSlotTime + deriveDate utilities, pending status, display-component migration
-- [ ] 01-PLAN-02.md — Date-range props, boundary-disabled toolbar nav, out-of-range greying
+- [ ] 01-PLAN-02.md — Date-range props, boundary-disabled toolbar nav, out-of-range greying (MonthView + WeekView)
 - [ ] 01-PLAN-03.md — SSR-safe theme fix, onSlotClick/real-time verification, demo app migration, 2.0.0 build
 
 ### Phase 2: Firebase Foundation

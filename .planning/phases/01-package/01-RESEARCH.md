@@ -602,22 +602,25 @@ const slot: Slot = { id: 's1', date: '2026-05-19', startUtc: '2026-05-19T09:00:0
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **BookingModal and QuickGenerateModal — do they reference `startTime`/`endTime`?**
    - What we know: These components exist (`src/components/BookingModal/`, `src/components/QuickGenerateModal/`) but were not read during research.
    - What's unclear: Whether they display or otherwise reference the old time field names.
    - Recommendation: Read both files before starting the rename task. If they reference `startTime`/`endTime`, add them to the change list.
+   - **RESOLVED:** BookingModal is covered in Plan 01 Task 2 (duration math + display switched to `startUtc`/`endUtc` via `formatSlotTime`). AdminPanel is also covered in Plan 01 Task 2 (slot-listing reads switched to `startUtc`; creation callbacks deliberately left as local-time strings). QuickGenerateModal emits local-time creation callbacks only (no `Slot` read site) so it is out of scope per the Plan 01 scope note.
 
 2. **AdminPanel — same concern.**
    - What we know: `AdminPanel` is exported from the Calendar compound component (`src/components/AdminPanel/`).
    - What's unclear: Whether it references slot time fields.
    - Recommendation: Read before starting implementation.
+   - **RESOLVED:** AdminPanel slot-listing read sites (sort comparator, list display, aria-label, table cells) are migrated in Plan 01 Task 2. The AdminPanel creation form state and `onCreateSlot`/`onCreateSlots` callback contracts stay as local-time strings (host app owns UTC conversion).
 
 3. **Demo app (`appoinment-scheduler/apps/web/`) — current slot data format.**
    - What we know: The demo app imports the package and was mentioned as the manual SSR verification target.
    - What's unclear: Whether its mock slot data uses `startTime`/`endTime` and needs updating.
    - Recommendation: Update demo app fixtures as part of this phase to serve as the integration smoke test.
+   - **RESOLVED:** Demo app migration is covered in Plan 03 Task 2 — `appStore.ts` `StoredSlot`/seed/create helpers move to `startUtc`/`endUtc`, and `App.tsx` maps to the UTC `Slot` shape and uses the exported `formatSlotTime`. The demo app serves as the SSR + timezone smoke test in Plan 03 Task 4 (human verify).
 
 ---
 

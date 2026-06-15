@@ -38,14 +38,15 @@ created: 2026-06-16
 
 | Task ID | Plan | Wave | Requirement | Secure Behavior | Test Type | Automated Command | Status |
 |---------|------|------|-------------|-----------------|-----------|-------------------|--------|
-| types-utc | 01 | 1 | PKG-01 | N/A | type-check | `pnpm --filter react-easy-appointments build` | ⬜ pending |
-| slot-display | 01 | 1 | PKG-01 | N/A | unit | `pnpm --filter react-easy-appointments test --run src/__tests__/utcDisplay.test.ts` | ⬜ pending |
-| date-range-props | 02 | 1 | PKG-02 | N/A | unit | `pnpm --filter react-easy-appointments test --run src/__tests__/dateRange.test.ts` | ⬜ pending |
-| toolbar-disabled | 02 | 1 | PKG-02 | N/A | unit | `pnpm --filter react-easy-appointments test --run src/__tests__/toolbar.test.ts` | ⬜ pending |
-| pending-status | 03 | 1 | PKG-03 | N/A | unit | `pnpm --filter react-easy-appointments test --run src/__tests__/slotStatus.test.ts` | ⬜ pending |
-| ssr-fix | 04 | 2 | PKG-05 | N/A | unit | `pnpm --filter react-easy-appointments test --run src/__tests__/ssr.test.ts` | ⬜ pending |
-| week-view-utc | 01 | 2 | PKG-01 | N/A | unit | `pnpm --filter react-easy-appointments test --run src/__tests__/weekView.test.ts` | ⬜ pending |
-| build-check | 05 | 3 | PKG-05 | N/A | build | `pnpm build:pkg` | ⬜ pending |
+| wave0-units | 00 | 0 | PKG-01, PKG-05 | N/A | unit (RED) | `pnpm --filter react-easy-appointments test --run tests/formatSlotTime.test.ts tests/deriveDate.test.ts` | ⬜ pending |
+| wave0-components | 00 | 0 | PKG-02, PKG-05 | N/A | component (RED) | `pnpm --filter react-easy-appointments test --run tests/dateRange.test.tsx tests/ssr.test.tsx` | ⬜ pending |
+| types-utc + utilities | 01 | 1 | PKG-01 | N/A | type + unit | `pnpm --filter react-easy-appointments test --run tests/deriveDate.test.ts tests/formatSlotTime.test.ts tests/types.test.ts tests/useSlotsByDate.test.ts` | ⬜ pending |
+| slot-display (components) | 01 | 1 | PKG-01, PKG-03 | N/A | component | `pnpm --filter react-easy-appointments test --run tests/MonthView.test.tsx tests/WeekView.test.tsx tests/BookingModal.test.tsx` | ⬜ pending |
+| date-range-props + toolbar | 02 | 2 | PKG-02 | N/A | component | `pnpm --filter react-easy-appointments test --run tests/dateRange.test.tsx tests/Toolbar.test.tsx tests/Calendar.test.tsx tests/useCalendarState.test.ts` | ⬜ pending |
+| out-of-range (Month + Week) | 02 | 2 | PKG-02 | N/A | component | `pnpm --filter react-easy-appointments test --run tests/dateRange.test.tsx tests/MonthView.test.tsx tests/WeekView.test.tsx` | ⬜ pending |
+| ssr-fix + realtime | 03 | 3 | PKG-03, PKG-05 | N/A | component | `pnpm --filter react-easy-appointments test --run tests/ssr.test.tsx tests/Calendar.test.tsx` | ⬜ pending |
+| onSlotClick + demo migrate | 03 | 3 | PKG-04 | N/A | component | `pnpm --filter react-easy-appointments test --run tests/Calendar.test.tsx tests/MonthView.test.tsx` | ⬜ pending |
+| build-check | 03 | 3 | PKG-05 | N/A | build | `pnpm build:pkg` | ⬜ pending |
 
 *Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky*
 
@@ -53,12 +54,14 @@ created: 2026-06-16
 
 ## Wave 0 Requirements
 
-- [ ] `appoinment-scheduler/packages/react-easy-appointments/src/__tests__/utcDisplay.test.ts` — stubs for PKG-01 UTC display
-- [ ] `appoinment-scheduler/packages/react-easy-appointments/src/__tests__/dateRange.test.ts` — stubs for PKG-02 date range
-- [ ] `appoinment-scheduler/packages/react-easy-appointments/src/__tests__/toolbar.test.ts` — stubs for PKG-02 navigation disable
-- [ ] `appoinment-scheduler/packages/react-easy-appointments/src/__tests__/slotStatus.test.ts` — stubs for PKG-03 pending status
-- [ ] `appoinment-scheduler/packages/react-easy-appointments/src/__tests__/ssr.test.ts` — stubs for PKG-05 SSR safety
-- [ ] `appoinment-scheduler/packages/react-easy-appointments/src/__tests__/weekView.test.ts` — stubs for PKG-01 WeekView UTC rendering
+Wave 0 (Plan 00) creates these failing (RED) test stubs under `tests/`:
+
+- [ ] `appoinment-scheduler/packages/react-easy-appointments/tests/formatSlotTime.test.ts` — stubs for PKG-01 UTC display + PKG-05 SSR-safe empty-string-on-server
+- [ ] `appoinment-scheduler/packages/react-easy-appointments/tests/deriveDate.test.ts` — stubs for PKG-01 UTC date-key derivation
+- [ ] `appoinment-scheduler/packages/react-easy-appointments/tests/dateRange.test.tsx` — stubs for PKG-02 date-range props, toolbar prev/next disable, out-of-range greying (MonthView and WeekView)
+- [ ] `appoinment-scheduler/packages/react-easy-appointments/tests/ssr.test.tsx` — stubs for PKG-05 SSR safety (theme="auto", matchMedia undefined)
+
+PKG-03 (pending status), PKG-04 (onSlotClick), and the remaining PKG-01 WeekView/MonthView cases are added to EXISTING test files (`tests/types.test.ts`, `tests/MonthView.test.tsx`, `tests/WeekView.test.tsx`, `tests/Calendar.test.tsx`) during their implementing plans — no new Wave 0 files needed for those.
 
 ---
 
