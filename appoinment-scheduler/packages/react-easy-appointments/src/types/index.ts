@@ -1,10 +1,10 @@
-export type SlotStatus = 'available' | 'booked' | 'unavailable'
+export type SlotStatus = 'available' | 'pending' | 'booked' | 'unavailable'
 
 export type Slot = {
   id: string
-  date: string           // ISO 8601: "2026-05-19"
-  startTime: string      // 24h: "09:00"
-  endTime: string        // 24h: "10:00"
+  date: string      // UTC date key: "2026-05-19" — always derived from startUtc's UTC date
+  startUtc: string  // Full UTC ISO: "2026-05-19T09:00:00Z"
+  endUtc: string    // Full UTC ISO: "2026-05-19T10:00:00Z"
   status: SlotStatus
   bookedByLabel?: string
 }

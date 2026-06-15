@@ -2,16 +2,16 @@ import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Calendar } from '../src/components/Calendar'
-import { format } from 'date-fns'
 import type { Slot } from '../src/types'
 
 const todayStr = new Date().toISOString().split('T')[0]
 
+// startUtc uses T09:00:00Z so getUTCHours() === 9, placing it in the 9am grid row
 const availableSlot: Slot = {
   id: 'w1',
   date: todayStr,
-  startTime: '09:00',
-  endTime: '10:00',
+  startUtc: `${todayStr}T09:00:00Z`,
+  endUtc: `${todayStr}T10:00:00Z`,
   status: 'available',
 }
 
@@ -46,15 +46,19 @@ describe('WeekView', () => {
     expect(screen.getByText('8pm')).toBeInTheDocument()
   })
 
-  it('renders an available slot at 9am for today', () => {
+  it('renders an available slot button for today', () => {
     renderWeek([availableSlot])
-    expect(screen.getByRole('button', { name: /09:00/i })).toBeInTheDocument()
+    // Query by status in aria-label — time text is locale-dependent
+    const btn = screen.getByRole('button', { name: /available/i })
+    expect(btn).toBeInTheDocument()
+    expect(btn).not.toBeDisabled()
   })
 
   it('calls onSlotClick when available slot clicked', async () => {
     const onSlotClick = vi.fn()
     renderWeek([availableSlot], onSlotClick)
-    await userEvent.click(screen.getByRole('button', { name: /09:00/i }))
+    const btn = screen.getByRole('button', { name: /available/i })
+    await userEvent.click(btn)
     expect(onSlotClick).toHaveBeenCalledWith(availableSlot)
   })
 })

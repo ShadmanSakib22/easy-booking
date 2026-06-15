@@ -7,8 +7,8 @@ import type { Slot } from '../src/types'
 const slot: Slot = {
   id: 'm1',
   date: '2026-05-19',
-  startTime: '09:00',
-  endTime: '10:00',
+  startUtc: '2026-05-19T09:00:00Z',
+  endUtc: '2026-05-19T10:00:00Z',
   status: 'available',
 }
 

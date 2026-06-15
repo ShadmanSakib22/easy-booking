@@ -6,8 +6,8 @@ import type { Slot } from '../src/types'
 const makeSlot = (id: string, date: string, status: Slot['status'] = 'available'): Slot => ({
   id,
   date,
-  startTime: '09:00',
-  endTime: '10:00',
+  startUtc: `${date}T09:00:00Z`,
+  endUtc: `${date}T10:00:00Z`,
   status,
 })
 

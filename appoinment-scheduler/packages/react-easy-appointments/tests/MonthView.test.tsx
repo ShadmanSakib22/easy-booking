@@ -9,16 +9,16 @@ const todayStr = new Date().toISOString().split('T')[0]
 const availableSlot: Slot = {
   id: 's1',
   date: todayStr,
-  startTime: '09:00',
-  endTime: '10:00',
+  startUtc: `${todayStr}T09:00:00Z`,
+  endUtc: `${todayStr}T10:00:00Z`,
   status: 'available',
 }
 
 const bookedSlot: Slot = {
   id: 's2',
   date: todayStr,
-  startTime: '11:00',
-  endTime: '12:00',
+  startUtc: `${todayStr}T11:00:00Z`,
+  endUtc: `${todayStr}T12:00:00Z`,
   status: 'booked',
   bookedByLabel: 'Test User 1',
 }
@@ -49,20 +49,24 @@ describe('MonthView', () => {
 
   it('shows available slot button for today', () => {
     renderMonth([availableSlot])
-    expect(screen.getByRole('button', { name: /09:00/i })).toBeInTheDocument()
+    // Query by aria-label containing 'available' — time text is locale-dependent
+    const btn = screen.getByRole('button', { name: /available/i })
+    expect(btn).toBeInTheDocument()
+    expect(btn).not.toBeDisabled()
   })
 
   it('calls onSlotClick when available slot is clicked', async () => {
     const onSlotClick = vi.fn()
     renderMonth([availableSlot], onSlotClick)
-    await userEvent.click(screen.getByRole('button', { name: /09:00/i }))
+    const btn = screen.getByRole('button', { name: /available/i })
+    await userEvent.click(btn)
     expect(onSlotClick).toHaveBeenCalledWith(availableSlot)
   })
 
   it('does not call onSlotClick for booked slot', async () => {
     const onSlotClick = vi.fn()
     renderMonth([bookedSlot], onSlotClick)
-    const btn = screen.getByRole('button', { name: /11:00/i })
+    const btn = screen.getByRole('button', { name: /booked/i })
     expect(btn).toBeDisabled()
     await userEvent.click(btn)
     expect(onSlotClick).not.toHaveBeenCalled()

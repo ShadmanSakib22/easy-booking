@@ -6,15 +6,15 @@ describe('public types', () => {
     const slot: Slot = {
       id: '1',
       date: '2026-05-19',
-      startTime: '09:00',
-      endTime: '10:00',
+      startUtc: '2026-05-19T09:00:00Z',
+      endUtc: '2026-05-19T10:00:00Z',
       status: 'available',
     }
     expectTypeOf(slot).toMatchTypeOf<Slot>()
   })
 
   it('SlotStatus union is exact', () => {
-    expectTypeOf<SlotStatus>().toEqualTypeOf<'available' | 'booked' | 'unavailable'>()
+    expectTypeOf<SlotStatus>().toEqualTypeOf<'available' | 'pending' | 'booked' | 'unavailable'>()
   })
 
   it('BookingFormData has subject, notes, durationMinutes', () => {

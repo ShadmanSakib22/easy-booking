@@ -45,15 +45,15 @@ export function WeekView() {
         </div>
         <div>
           {HOURS.map(hour => {
-            const hourStr = `${String(hour).padStart(2, '0')}:00`
             return (
               <div key={hour}>
                 <div>{formatHour(hour)}</div>
                 {days.map(day => {
                   const dateStr = format(day, 'yyyy-MM-dd')
-                  const cellSlots = slots.filter(
-                    s => s.date === dateStr && s.startTime === hourStr
-                  )
+                  const cellSlots = slots.filter(s => {
+                    if (s.date !== dateStr) return false
+                    return new Date(s.startUtc).getUTCHours() === hour
+                  })
                   return (
                     <div key={day.toISOString()}>
                       {cellSlots.map(slot => (
@@ -98,7 +98,6 @@ export function WeekView() {
       {/* Grid */}
       <div className="rea-week-view__grid">
         {HOURS.map(hour => {
-          const hourStr = `${String(hour).padStart(2, '0')}:00`
           const hourStartMin = hour * 60
           const hourEndMin = (hour + 1) * 60
           const showNow = todayInWeek && nowMinutes >= hourStartMin && nowMinutes < hourEndMin
@@ -121,9 +120,10 @@ export function WeekView() {
               {days.map(day => {
                 const dateStr = format(day, 'yyyy-MM-dd')
                 const today = isToday(day)
-                const cellSlots = slots.filter(
-                  s => s.date === dateStr && s.startTime === hourStr
-                )
+                const cellSlots = slots.filter(s => {
+                  if (s.date !== dateStr) return false
+                  return new Date(s.startUtc).getUTCHours() === hour
+                })
                 return (
                   <div
                     key={day.toISOString()}
