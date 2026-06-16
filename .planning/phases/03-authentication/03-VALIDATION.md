@@ -1,9 +1,9 @@
 ---
 phase: 03
 slug: authentication
-status: draft
-nyquist_compliant: false
-wave_0_complete: false
+status: final
+nyquist_compliant: true
+wave_0_complete: true
 created: 2026-06-17
 ---
 
@@ -38,14 +38,14 @@ created: 2026-06-17
 
 | Task ID | Plan | Wave | Requirement | Threat Ref | Secure Behavior | Test Type | Automated Command | File Exists | Status |
 |---------|------|------|-------------|------------|-----------------|-----------|-------------------|-------------|--------|
-| TBD | TBD | 0 | AUTH-01 | — | Sign-up creates Firebase Auth user + Firestore doc | integration | `pnpm test:rules` (extend `auth.test.ts`) | ❌ W0 | ⬜ pending |
-| TBD | TBD | 0 | AUTH-02 | — | Unverified user blocked by `requireVerified` mechanism | unit | new `Guard.test.tsx` | ❌ W0 | ⬜ pending |
-| TBD | TBD | 0 | AUTH-03 | — | Sign-in succeeds/fails correctly, friendly error mapping | integration | `pnpm test:rules` (extend `auth.test.ts`) | ❌ W0 | ⬜ pending |
-| TBD | TBD | 0 | AUTH-04 | — | Google sign-in completes and creates/links user | manual | manual checklist | ❌ W0 (manual) | ⬜ pending |
-| TBD | TBD | 0 | AUTH-05 | — | Password reset email sent for existing account | integration | `pnpm test:rules` (extend `auth.test.ts`) | ❌ W0 | ⬜ pending |
-| TBD | TBD | 0 | AUTH-06 | — | Password change succeeds; re-auth required on `requires-recent-login` | integration | `pnpm test:rules` (extend `auth.test.ts`) | ❌ W0 | ⬜ pending |
-| TBD | TBD | 0 | AUTH-07 | — | Session persists across browser close/reopen | manual | manual checklist | ❌ W0 (manual) | ⬜ pending |
-| TBD | TBD | 0 | AUTH-08 | — | Custom pages exist and route correctly | smoke | route-existence check or manual QA | ❌ W0 | ⬜ pending |
+| 03-01-T3 | 01 | 1 | AUTH-01 | — | Sign-up creates Firebase Auth user + Firestore doc | integration | `pnpm test:rules` (`auth.test.ts`) | ✅ | ⬜ pending |
+| 03-04-T1 | 04 | 3 | AUTH-02 | — | Unverified user blocked by `requireVerified` mechanism | unit/integration | `pnpm test:rules` (`auth.test.ts` / Guard logic) | ✅ | ⬜ pending |
+| 03-03-T1 | 03 | 2 | AUTH-03 | — | Sign-in succeeds/fails correctly, friendly error mapping | integration | `pnpm test:rules` (`auth.test.ts`) | ✅ | ⬜ pending |
+| 03-05-T2 | 05 | 4 | AUTH-04 | — | Google sign-in completes and creates/links user | manual | manual checkpoint | ✅ (manual) | ⬜ pending |
+| 03-03-T2 | 03 | 2 | AUTH-05 | — | Password reset email sent for existing account | integration | `pnpm test:rules` (`auth.test.ts`) | ✅ | ⬜ pending |
+| 03-05-T1 | 05 | 4 | AUTH-06 | — | Password change succeeds; re-auth required on `requires-recent-login` | integration | `pnpm test:rules` (`auth.test.ts` extended) | ✅ | ⬜ pending |
+| 03-05-T2 | 05 | 4 | AUTH-07 | — | Session persists across browser close/reopen | manual | manual checkpoint | ✅ (manual) | ⬜ pending |
+| 03-02-T1 | 02 | 2 | AUTH-08 | — | Custom pages exist and route correctly | smoke | route-existence check | ✅ | ⬜ pending |
 
 *Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky*
 
@@ -53,9 +53,9 @@ created: 2026-06-17
 
 ## Wave 0 Requirements
 
-- [ ] `my-app/lib/firebase/__tests__/auth.test.ts` — covers AUTH-01, AUTH-03, AUTH-05, AUTH-06 against the Auth emulator (`connectAuthEmulator`, not `@firebase/rules-unit-testing`)
-- [ ] `my-app/vitest.config.ts` — widen `include` glob to cover new auth test files; add `jsdom`/`happy-dom` environment if `Guard.tsx` component tests are added
-- [ ] Decide whether to install `@testing-library/react` for `Guard.tsx` redirect-logic tests, or defer to manual QA
+- [x] `my-app/lib/firebase/__tests__/auth.test.ts` — covers AUTH-01, AUTH-03, AUTH-05, AUTH-06 against the Auth emulator (`connectAuthEmulator`), created in 03-01-PLAN.md Task 3, extended in 03-05-PLAN.md
+- [x] `my-app/vitest.config.ts` — `include` glob widened to cover `auth.test.ts` in 03-01-PLAN.md
+- [x] Decided: defer `@testing-library/react` install — Guard.tsx redirect logic covered via manual QA + integration tests, not component tests (per 03-04-PLAN.md)
 
 ---
 
@@ -70,11 +70,11 @@ created: 2026-06-17
 
 ## Validation Sign-Off
 
-- [ ] All tasks have `<automated>` verify or Wave 0 dependencies
-- [ ] Sampling continuity: no 3 consecutive tasks without automated verify
-- [ ] Wave 0 covers all MISSING references
-- [ ] No watch-mode flags
-- [ ] Feedback latency < 20s
-- [ ] `nyquist_compliant: true` set in frontmatter
+- [x] All tasks have `<automated>` verify or Wave 0 dependencies
+- [x] Sampling continuity: no 3 consecutive tasks without automated verify
+- [x] Wave 0 covers all MISSING references
+- [x] No watch-mode flags
+- [x] Feedback latency < 20s
+- [x] `nyquist_compliant: true` set in frontmatter
 
-**Approval:** pending
+**Approval:** approved 2026-06-17 (verified against 5 finalized plans by gsd-plan-checker; no unmitigated high-severity threats, no missing automated verifies outside documented manual-only exceptions)

@@ -480,16 +480,18 @@ function useEmailVerificationPolling(onVerified: () => void, intervalMs = 3000) 
 
 **If this table is empty:** N/A — see entries above; none of these block planning, all are low-to-medium risk with cheap fallback/verification paths during execution.
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **zod major version: 3.x (per CLAUDE.md) or 4.x (current npm `latest`)?**
+1. **zod major version: 3.x (per CLAUDE.md) or 4.x (current npm `latest`)?** — RESOLVED: zod 4.x + `@hookform/resolvers` 5.x, decided explicitly in 03-01-PLAN.md Task 1 (no other package depends on zod, no compatibility constraint forced v3).
    - What we know: CLAUDE.md pins `zod ^3.x` and `@hookform/resolvers ^3.x`; npm registry's current `latest` tags are `zod@4.4.3` and `@hookform/resolvers@5.4.0` [VERIFIED: npm registry, 2026-06-17].
    - What's unclear: Whether CLAUDE.md's pin reflects an intentional project decision (e.g. compatibility with some other already-installed package) or is simply stale guidance written before zod 4 was current.
    - Recommendation: Default to current `latest` (zod 4.x + resolvers 5.x) since nothing else in `my-app/package.json` currently depends on zod, and there's no compatibility constraint forcing v3. Planner should confirm this choice explicitly in the plan's setup task rather than silently picking one.
 
-2. **Account/security route path** — Claude's discretion per CONTEXT.md; this research recommends `/account/security` (matches the example already given in D-05) for consistency with the future `account/` area implied by PROF-02/PROF-03 in later phases, but the planner should make the final call and note it in PLAN.md so Phase 11 (Creator Dashboard & Profiles) can build a consistent `/account/*` area around it.
+2. **Account/security route path** — RESOLVED: `/account/security`, as used in 03-05-PLAN.md, matching this research's recommendation and D-05's example.
+   - Claude's discretion per CONTEXT.md; this research recommends `/account/security` (matches the example already given in D-05) for consistency with the future `account/` area implied by PROF-02/PROF-03 in later phases, but the planner should make the final call and note it in PLAN.md so Phase 11 (Creator Dashboard & Profiles) can build a consistent `/account/*` area around it.
 
-3. **Resend verification email rate limiting** — Claude's discretion (CONTEXT.md). No specific Firebase quota was independently verified in this session for `sendEmailVerification` call frequency; recommend a conservative client-side cooldown (e.g. 60 seconds between resend clicks) as a placeholder, and treat any server-imposed Firebase rate limit as a defense-in-depth backstop rather than the primary control, since Firebase's own per-project Auth quotas are not user-facing/documented at a granular level. Flag as something to validate against actual emulator/production behavior during execution rather than a locked number.
+3. **Resend verification email rate limiting** — RESOLVED: 60-second client-side cooldown, adopted in 03-01/03-02-PLAN.md per this research's recommendation.
+   - Claude's discretion (CONTEXT.md). No specific Firebase quota was independently verified in this session for `sendEmailVerification` call frequency; recommend a conservative client-side cooldown (e.g. 60 seconds between resend clicks) as a placeholder, and treat any server-imposed Firebase rate limit as a defense-in-depth backstop rather than the primary control, since Firebase's own per-project Auth quotas are not user-facing/documented at a granular level. Flag as something to validate against actual emulator/production behavior during execution rather than a locked number.
 
 ## Environment Availability
 
