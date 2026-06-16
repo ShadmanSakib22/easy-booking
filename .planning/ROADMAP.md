@@ -70,7 +70,13 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. A user who forgets their password can request a reset email and set a new password via the link
   4. A signed-in user can change their password from account settings without signing out
   5. After closing and reopening the browser, a previously signed-in user remains signed in (Firebase Auth persistence)
-**Plans**: TBD
+**Plans**: 5 plans
+Plans:
+- [ ] 03-01-PLAN.md — Wave 1: packages, button weight override, error map, zod schemas, AuthProvider, Wave-0 auth emulator tests
+- [ ] 03-02-PLAN.md — Wave 2: AuthLayout, sign-up form + Firestore user doc, verify-email pending/resend/poll
+- [ ] 03-03-PLAN.md — Wave 2: sign-in form, Google OAuth (redirect), forgot-password
+- [ ] 03-04-PLAN.md — Wave 3: Guard.tsx client wrapper, onboarding/username step
+- [ ] 03-05-PLAN.md — Wave 4: account/security password change with re-auth, manual verification checkpoint
 **UI hint**: yes
 
 ### Phase 4: Calendar Management
@@ -204,7 +210,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 |-------|----------------|--------|-----------|
 | 1. Package | 0/4 | Planned | - |
 | 2. Firebase Foundation | 0/5 | Planned | - |
-| 3. Authentication | 0/TBD | Not started | - |
+| 3. Authentication | 0/5 | Planned | - |
 | 4. Calendar Management | 0/TBD | Not started | - |
 | 5. Public Booking Flow | 0/TBD | Not started | - |
 | 6. Email & SMTP | 0/TBD | Not started | - |
