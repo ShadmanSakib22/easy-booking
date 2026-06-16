@@ -53,7 +53,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. Firestore collections (users, calendars, slots, bookings, invites) exist with the agreed document schema
   3. Firestore security rules deny all unauthenticated writes to creator-owned resources; a rule test suite passes
   4. A local emulator suite runs all three Firebase services (Auth, Firestore, Storage) for offline development
-**Plans**: TBD
+**Plans**: 5 plans
+- [ ] 02-01-PLAN.md — Wave 1: Install Java/firebase-tools/npm packages, scaffold firebase.json + rules stubs + 6 composite indexes + vitest config
+- [ ] 02-02-PLAN.md — Wave 2: Firebase client SDK singleton (client.ts), Admin SDK singleton (admin.ts), TypeScript types for all 5 collections (types.ts)
+- [ ] 02-03-PLAN.md — Wave 2: Complete v1 Firestore security rules for all 5 collections
+- [ ] 02-04-PLAN.md — Wave 3: Security rules test suite (13+ tests, @firebase/rules-unit-testing v5)
+- [ ] 02-05-PLAN.md — Wave 4: Emulator seed script (1 user + 1 calendar + 5 slots) + human verification checkpoint
 
 ### Phase 3: Authentication
 **Goal**: Users can securely create accounts, sign in via email or Google, verify their email, recover their password, and maintain a persistent session — all through custom-built Next.js pages
@@ -198,7 +203,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Package | 0/4 | Planned | - |
-| 2. Firebase Foundation | 0/TBD | Not started | - |
+| 2. Firebase Foundation | 0/5 | Planned | - |
 | 3. Authentication | 0/TBD | Not started | - |
 | 4. Calendar Management | 0/TBD | Not started | - |
 | 5. Public Booking Flow | 0/TBD | Not started | - |
