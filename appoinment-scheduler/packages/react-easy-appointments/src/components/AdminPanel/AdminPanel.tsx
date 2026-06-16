@@ -73,7 +73,7 @@ export function AdminPanel({
 
   const confirmedAppts = appointments.filter(a => a.status === 'confirmed')
   const sortedSlots = [...slots].sort(
-    (a, b) => a.date.localeCompare(b.date) || a.startUtc.localeCompare(b.startUtc)
+    (a, b) => (a.date ?? '').localeCompare(b.date ?? '') || (a.startUtc ?? '').localeCompare(b.startUtc ?? '')
   )
   const deletableSlots = sortedSlots.filter(s => s.status === 'available')
   const allSlotsSelected = deletableSlots.length > 0 && deletableSlots.every(s => selectedSlotIds.has(s.id))
