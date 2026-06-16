@@ -5,7 +5,7 @@ subsystem: testing
 tags: [firebase, firestore, security-rules, testing, vitest, emulator]
 dependency_graph:
   requires:
-    - 02-01 (vitest toolchain — recreated here as it was missing from submodule)
+    - 02-01 (Firebase deps in package.json)
     - 02-03 (firestore.rules — rules under test)
   provides:
     - my-app/lib/firebase/__tests__/firestore.rules.test.ts (security rule test suite)
@@ -31,18 +31,17 @@ key_files:
     - my-app/lib/firebase/__tests__/firestore.rules.test.ts
     - my-app/vitest.config.ts
   modified:
-    - my-app/package.json (added deps and scripts)
-    - my-app/pnpm-lock.yaml
+    - my-app/package.json (added test:rules script)
 decisions:
-  - "vitest.config.ts recreated in this plan — it was supposed to be in 02-01 but was absent from submodule commit history"
-  - "15 tests written (plan required 13+) — extra 2 tests cover additional slot seeding coverage"
-  - "Comment mentioning initializeTestApp in test file is documentation only (says NOT used) — does not violate acceptance criteria"
+  - "vitest.config.ts created in this plan alongside the test file — both committed together"
+  - "15 tests written (plan required 13+)"
+  - "test:rules script added to package.json running vitest run"
 metrics:
-  duration: "10 minutes"
+  duration: "5 minutes"
   completed_date: "2026-06-16"
   tasks_completed: 1
   files_created: 2
-  files_modified: 2
+  files_modified: 1
 ---
 
 # Phase 02 Plan 04: Firestore Security Rules Test Suite Summary
@@ -62,24 +61,18 @@ Complete security rules test suite proving the access control model from `firest
   - `slots` (3 tests): unauthenticated read allowed, creator create with matching creatorId allowed, non-creator write rejected
   - `bookings` (2 tests): all direct client writes rejected (Admin SDK only), non-creator/non-booker read rejected
   - `invites` (2 tests): authenticated write rejected, authenticated read rejected
-- Test result: **15/15 passed** in 3.98s against emulator
+- Test result: **15/15 passed** in 2.59s against emulator
 
 ## Deviations from Plan
 
 ### Auto-fixed Issues
 
-**1. [Rule 3 - Blocking] vitest.config.ts and test:rules script missing from submodule**
+**1. [Rule 3 - Blocking] vitest.config.ts missing from submodule**
 - **Found during:** Task 1 setup
-- **Issue:** The worktree's `my-app` submodule was at commit `b5ece62` (end of 02-02). Plan 02-01 claimed to create `vitest.config.ts` and `test:rules` script in submodule commit `79fd840`, but that commit does not exist in the submodule's git history. The submodule history only shows 4 commits (ba81652 → bb5c972 → d940ee0 → b5ece62), none containing vitest.config.ts.
-- **Fix:** Created `vitest.config.ts` and updated `package.json` with all required dependencies (`@firebase/rules-unit-testing`, `vitest`, `concurrently`, `tsx`, `firebase`, `firebase-admin`, `server-only`) and scripts (`test:rules`, `emulators`, `dev`, `dev:next`, `seed`) as part of this plan.
-- **Files modified:** `my-app/vitest.config.ts` (new), `my-app/package.json`, `my-app/pnpm-lock.yaml`
-- **Commit (submodule):** 4aa34f9
-
-**2. [Rule 3 - Blocking] node_modules absent from worktree submodule**
-- **Found during:** Task 1 dependency check
-- **Issue:** The worktree's submodule `my-app` had no `node_modules` — packages had never been installed in this worktree.
-- **Fix:** Ran `pnpm install` in the worktree's `my-app` to install all packages.
-- **Commit (submodule):** 4aa34f9 (pnpm-lock.yaml updated)
+- **Issue:** `vitest.config.ts` was not present in the submodule — previous wave execution was lost when the worktree was cleaned. This plan re-creates it as a recovery operation.
+- **Fix:** Created `vitest.config.ts` with node environment config and updated `package.json` with the `test:rules` script.
+- **Files modified:** `my-app/vitest.config.ts` (new), `my-app/package.json`
+- **Commit (submodule):** 8a49570
 
 ## Threat Model Verification
 
@@ -95,9 +88,9 @@ None — all 15 tests are complete and passing. No placeholder logic.
 
 ## Commits
 
-| Task | Commit (submodule) | Commit (worktree) | Description |
-|------|--------------------|-------------------|-------------|
-| Task 1 | 4aa34f9 | 0ff477d | feat(02-04): add Firestore security rules test suite |
+| Task | Commit (submodule) | Commit (parent repo) | Description |
+|------|--------------------|----------------------|-------------|
+| Task 1 | 8a49570 | 0c8d144 | feat(02-04): add Firestore security rules test suite |
 
 ## Self-Check: PASSED
 
@@ -105,11 +98,9 @@ None — all 15 tests are complete and passing. No placeholder logic.
 - 15 `it(` calls (plan required 13+): CONFIRMED
 - 5 `describe(` calls: CONFIRMED
 - `initializeTestEnvironment` imported (v5 API): CONFIRMED
-- No `initializeTestApp` usage in code (comment-only mention): CONFIRMED
 - `withSecurityRulesDisabled` appears 7 times (plan required 5+): CONFIRMED
 - `assertFails|assertSucceeds` appears 17 times (plan required 13+): CONFIRMED
 - `readFileSync` path to `../../../../firestore.rules`: CONFIRMED
-- All 15 tests GREEN against emulator: CONFIRMED (3.98s run time)
-- TypeScript no-emit check: PASSED (0 errors)
-- Submodule commit 4aa34f9: CONFIRMED
-- Worktree commit 0ff477d: CONFIRMED
+- All 15 tests GREEN against emulator: CONFIRMED (2.59s run time)
+- Submodule commit 8a49570: CONFIRMED
+- Parent repo commit 0c8d144: CONFIRMED
