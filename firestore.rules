@@ -1,8 +1,71 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
+
+    // ── users/{userId} ──────────────────────────────────────────────────────
+    // Authenticated user can read and write only their own document.
+    // No cross-user reads (profile data is accessed via public profile endpoint).
+    match /users/{userId} {
+      allow read, write: if request.auth != null
+                         && request.auth.uid == userId;
+    }
+
+    // ── calendars/{calendarId} ──────────────────────────────────────────────
+    // Public read: any visitor can read published+public calendars (booking pages).
+    // Creator read+write: creator has full access to their own calendars.
+    // Creator create: new calendar must have creatorId == requesting user.
+    // Non-creator writes: denied — only the owning creator can modify.
+    match /calendars/{calendarId} {
+      // Public read — status AND visibility must both match
+      allow read: if resource.data.status == 'published'
+                  && resource.data.visibility == 'public';
+
+      // Creator full access (read + update + delete)
+      allow read, update, delete: if request.auth != null
+                                  && request.auth.uid == resource.data.creatorId;
+
+      // Creator create — use request.resource.data (resource.data is null on create)
+      allow create: if request.auth != null
+                    && request.auth.uid == request.resource.data.creatorId;
+    }
+
+    // ── slots/{slotId} ──────────────────────────────────────────────────────
+    // Public read: slot availability is public information needed for booking pages.
+    // Creator write: only the calendar creator can create/update/delete slots.
+    // Slot status transitions (pending → booked) go through Admin SDK in booking flow.
+    match /slots/{slotId} {
+      allow read: if true;
+
+      // Creator update + delete
+      allow update, delete: if request.auth != null
+                            && request.auth.uid == resource.data.creatorId;
+
+      // Creator create — creatorId on the new slot must match auth uid
+      allow create: if request.auth != null
+                    && request.auth.uid == request.resource.data.creatorId;
+    }
+
+    // ── bookings/{bookingId} ────────────────────────────────────────────────
+    // Creator read: creator can read all bookings on their calendars (DASH-01).
+    // Booker read: booker can read their own booking (by bookerUid).
+    // All writes: denied — booking creation and status updates go through Admin SDK.
+    // This enforces the atomic transaction pattern (BOOK-05) server-side only.
+    match /bookings/{bookingId} {
+      allow read: if request.auth != null
+                  && (request.auth.uid == resource.data.creatorId
+                      || request.auth.uid == resource.data.bookerUid);
+
+      // All writes via Admin SDK (bypasses these rules)
+      allow write: if false;
+    }
+
+    // ── invites/{inviteId} ──────────────────────────────────────────────────
+    // No client reads or writes — all OTP operations go through server-side
+    // Route Handlers using Admin SDK (INV-03, INV-04).
+    // Admin SDK bypasses security rules entirely — these rules affect client SDK only.
+    match /invites/{inviteId} {
       allow read, write: if false;
     }
+
   }
 }
