@@ -1,9 +1,18 @@
 # react-easy-appointments
 
-A flexible, high-contrast, fully typed React compound-component calendar for appointment scheduling. It features month and week views, a built-in admin panel, bulk slot generation, and a dual-mode engine (Headless & Styled).
+A flexible, high-contrast, fully typed React compound-component calendar for appointment scheduling. Features month and week views, a built-in admin panel, bulk slot generation, and a dual-mode engine (Headless & Styled).
 
 [![npm version](https://img.shields.io/npm/v/react-easy-appointments.svg)](https://www.npmjs.com/package/react-easy-appointments)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+---
+
+## v2.0.0 Breaking Changes
+
+- **`Slot.startTime` / `Slot.endTime`** (HH:MM strings) have been **removed**. Replace with `startUtc` / `endUtc` (full UTC ISO 8601 strings, e.g. `"2026-05-19T09:00:00Z"`).
+- **`SlotStatus`** now includes `'pending'` in addition to `'available'`, `'booked'`, and `'unavailable'`. Pending slots render with a distinct visual style and are non-interactive (their button is disabled).
+- Two new utility exports are available: `formatSlotTime` and `deriveDate` (see [Utilities](#utilities) below).
+- New `startDate` / `endDate` props on `<Calendar>` for bounded date ranges.
 
 ---
 
@@ -21,9 +30,65 @@ Make sure `react` and `react-dom` (v18 or v19) are installed in your project.
 
 ---
 
-## Dual Mode: Styled vs Headless
+## Slot Shape
 
-`react-easy-appointments` offers two different integration styles:
+Every slot must conform to this shape:
+
+```typescript
+export type SlotStatus = 'available' | 'pending' | 'booked' | 'unavailable'
+
+export interface Slot {
+  id: string
+  date: string       // UTC date key: "YYYY-MM-DD" — always derived from startUtc's UTC date
+  startUtc: string   // Full UTC ISO 8601: "2026-05-19T09:00:00Z"
+  endUtc: string     // Full UTC ISO 8601: "2026-05-19T10:00:00Z"
+  status: SlotStatus
+  bookedByLabel?: string
+}
+```
+
+Use the exported `deriveDate` helper to build the `date` field:
+
+```typescript
+import { deriveDate } from 'react-easy-appointments'
+
+const slot: Slot = {
+  id: crypto.randomUUID(),
+  startUtc: '2026-05-19T09:00:00Z',
+  endUtc: '2026-05-19T10:00:00Z',
+  date: deriveDate('2026-05-19T09:00:00Z'), // → "2026-05-19"
+  status: 'available',
+}
+```
+
+---
+
+## Utilities
+
+### `formatSlotTime(utcString, locale?)`
+
+SSR-safe formatter that converts a UTC ISO timestamp to the visitor's local time using `Intl.DateTimeFormat`. Returns `''` on the server (no timezone shift risk during SSR/hydration).
+
+```typescript
+import { formatSlotTime } from 'react-easy-appointments'
+
+formatSlotTime('2026-05-19T09:00:00Z')           // → "9:00 AM" (visitor local time, en-US)
+formatSlotTime('2026-05-19T09:00:00Z', 'de-DE')  // → "09:00"
+```
+
+### `deriveDate(utcString)`
+
+Extracts the UTC date key (`"YYYY-MM-DD"`) from a full UTC ISO timestamp using string slicing — never shifts by local timezone.
+
+```typescript
+import { deriveDate } from 'react-easy-appointments'
+
+deriveDate('2026-05-19T09:00:00Z') // → "2026-05-19"
+```
+
+---
+
+## Dual Mode: Styled vs Headless
 
 ### 1. Styled Mode (Default)
 
@@ -34,9 +99,18 @@ import { Calendar } from 'react-easy-appointments'
 import 'react-easy-appointments/styles'
 import { useState } from 'react'
 import type { Slot } from 'react-easy-appointments'
+import { deriveDate } from 'react-easy-appointments'
 
 function App() {
-  const [slots, setSlots] = useState<Slot[]>([])
+  const [slots, setSlots] = useState<Slot[]>([
+    {
+      id: '1',
+      startUtc: '2026-06-20T09:00:00Z',
+      endUtc: '2026-06-20T10:00:00Z',
+      date: deriveDate('2026-06-20T09:00:00Z'),
+      status: 'available',
+    },
+  ])
   const [selected, setSelected] = useState<Slot | null>(null)
   const [modalOpen, setModalOpen] = useState(false)
 
@@ -49,7 +123,7 @@ function App() {
           setModalOpen(true)
         }}
         onBook={(slot, data) => {
-          // Book slot handler
+          // Handle booking confirmation
           setModalOpen(false)
         }}
       >
@@ -70,7 +144,7 @@ function App() {
 
 ### 2. Headless Mode
 
-Set `headless={true}` to strip away all default class names, rendering only raw semantic HTML. Style everything yourself with plain CSS, TailwindCSS, or any other approach.
+Set `headless={true}` to strip away all default class names, rendering only raw semantic HTML. Style everything yourself with plain CSS, Tailwind CSS, or any other approach.
 
 ```tsx
 import { Calendar } from 'react-easy-appointments'
@@ -89,22 +163,55 @@ function HeadlessApp() {
 
 ---
 
-## Admin Control Panel
+## Bounded Date Range
 
-`Calendar.AdminPanel` lets you manage appointment availability, bulk-generate slots, view current bookings, cancel appointments, and configure week view hours. It can be placed inside a `<Calendar>` or used as a standalone component.
+Pass `startDate` and `endDate` (both `"YYYY-MM-DD"`) to restrict the calendar to a specific range:
+
+- The calendar initializes to the month containing `startDate`.
+- Navigation is disabled at both boundaries (Prev at `startDate`'s month, Next at `endDate`'s month).
+- Days outside the range are rendered greyed out and are non-interactive.
 
 ```tsx
+<Calendar
+  slots={slots}
+  startDate="2026-06-01"
+  endDate="2026-08-31"
+>
+  <Calendar.Toolbar />
+  <Calendar.MonthView />
+</Calendar>
+```
+
+Both props are optional. Omit them for an unbounded calendar.
+
+---
+
+## Admin Control Panel
+
+`Calendar.AdminPanel` lets you manage appointment availability, bulk-generate slots, view current bookings, cancel appointments, and configure week view hours.
+
+```tsx
+import { deriveDate, formatSlotTime } from 'react-easy-appointments'
+
 <Calendar.AdminPanel
   slots={slots}
   appointments={appointments}
   weekHourStart={7}
   weekHourEnd={20}
-  onCreateSlot={(date, start, end) => {
-    // Return true on success, false if the slot overlaps an existing one
-    return addSlot(date, start, end)
+  onCreateSlot={(date, startTime, endTime) => {
+    // startTime and endTime are local HH:MM strings from the time input
+    // Convert to UTC before storing if needed
+    return addSlot(date, startTime, endTime)
   }}
   onCreateSlots={(newSlots) => {
-    setSlots(prev => [...prev, ...newSlots.map(s => ({ ...s, id: uuid(), status: 'available' }))])
+    // newSlots: { date, startTime, endTime }[] — convert to UTC before storing
+    setSlots(prev => [...prev, ...newSlots.map(s => ({
+      ...s,
+      id: crypto.randomUUID(),
+      status: 'available' as const,
+      startUtc: new Date(`${s.date}T${s.startTime}`).toISOString(),
+      endUtc: new Date(`${s.date}T${s.endTime}`).toISOString(),
+    }))])
   }}
   onRemoveSlot={(slotId) => removeSlot(slotId)}
   onCancelAppointment={(apptId) => cancelAppointment(apptId)}
@@ -136,7 +243,7 @@ function HeadlessApp() {
   open={open}
   onClose={() => setOpen(false)}
   onGenerate={(slots) => {
-    setSlots(prev => [...prev, ...slots.map(s => ({ ...s, id: uuid(), status: 'available' }))])
+    // slots: { date, startTime, endTime }[] — convert to UTC before storing
   }}
   defaultDuration={30}
   defaultStartTime="08:00"
@@ -154,16 +261,18 @@ The modal lets the user pick a date range, repeat days of the week, a time windo
 
 | Prop | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
-| `slots` | `Slot[]` | **Required** | Array of available, booked, and unavailable slots |
-| `onSlotClick` | `(slot: Slot) => void` | — | Callback when a slot element is clicked |
+| `slots` | `Slot[]` | **Required** | Array of slots (available, pending, booked, unavailable) |
+| `onSlotClick` | `(slot: Slot) => void` | — | Callback when a slot button is clicked |
 | `onBook` | `(slot: Slot, data: BookingFormData) => void` | — | Callback when BookingModal form submits |
 | `defaultView` | `'month' \| 'week'` | `'month'` | Initial view layout |
 | `headless` | `boolean` | `false` | Disable all default stylesheets and BEM classes |
-| `weekStartsOn` | `0 \| 1` | `0` (Sunday) | Start day of the week — `0` = Sunday, `1` = Monday |
+| `weekStartsOn` | `0 \| 1` | `0` (Sunday) | Start day of the week |
 | `locale` | `string` | `'en-US'` | Language code for formatting titles and day names |
-| `theme` | `'light' \| 'dark' \| 'auto'` | `'light'` | Color scheme — `'auto'` follows the OS preference and updates live |
+| `theme` | `'light' \| 'dark' \| 'auto'` | `'light'` | Color scheme — `'auto'` follows OS preference and updates live |
 | `weekHourStart` | `number` | `7` | First hour shown on the week view (0–23) |
 | `weekHourEnd` | `number` | `20` | Last hour shown on the week view (1–24, inclusive) |
+| `startDate` | `string` | — | Optional lower bound `"YYYY-MM-DD"` — initializes view and disables back-nav at this month |
+| `endDate` | `string` | — | Optional upper bound `"YYYY-MM-DD"` — disables forward-nav at this month; out-of-range days are greyed |
 
 ### `<Calendar.BookingModal>` Props
 
@@ -177,18 +286,18 @@ The modal lets the user pick a date range, repeat days of the week, a time windo
 
 | Prop | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
-| `onCreateSlot` | `(date: string, start: string, end: string) => boolean` | **Required** | Called when a single slot is submitted. Return `false` to signal an overlap — the panel will show an error. |
+| `onCreateSlot` | `(date: string, startTime: string, endTime: string) => boolean` | **Required** | Called when a single slot is submitted. Return `false` to signal an overlap. |
 | `onCreateSlots` | `(slots: { date: string; startTime: string; endTime: string }[]) => void` | **Required** | Called with the array of slots generated by the Quick Generate dialog |
 | `slots` | `Slot[]` | context | Slot list. Falls back to the parent `<Calendar>` context when nested. |
 | `appointments` | `Appointment[]` | `[]` | Active appointments to display and manage |
-| `theme` | `'light' \| 'dark'` | context | Theme for standalone use (inherited from context when nested) |
+| `theme` | `'light' \| 'dark'` | context | Theme for standalone use |
 | `headless` | `boolean` | context | Headless mode for standalone use |
-| `weekHourStart` | `number` | context | Week view start hour (for the hour-range control) |
-| `weekHourEnd` | `number` | context | Week view end hour (for the hour-range control) |
+| `weekHourStart` | `number` | context | Week view start hour |
+| `weekHourEnd` | `number` | context | Week view end hour |
 | `onRemoveSlot` | `(slotId: string) => void` | — | Called with each selected slot ID when bulk-deleting. Omit to hide delete controls. |
-| `onCancelAppointment` | `(apptId: string) => void` | — | Called with each selected appointment ID when bulk-cancelling. Omit to hide cancel controls. |
+| `onCancelAppointment` | `(apptId: string) => void` | — | Called with each selected appointment ID when bulk-cancelling. |
 | `onWeekHourStartChange` | `(h: number) => void` | — | Called when the user changes the start-hour input. Providing this prop reveals the Week View Hours section. |
-| `onWeekHourEndChange` | `(h: number) => void` | — | Called when the user changes the end-hour input. Providing this prop reveals the Week View Hours section. |
+| `onWeekHourEndChange` | `(h: number) => void` | — | Called when the user changes the end-hour input. |
 
 ### `<Calendar.QuickGenerateModal>` Props
 
@@ -205,27 +314,17 @@ The modal lets the user pick a date range, repeat days of the week, a time windo
 
 ## Theme Customization (CSS Variables)
 
-In **Styled Mode**, override any CSS variable on `.rea-calendar` in your own stylesheet. All variables are listed in [variables.css](./src/styles/variables.css).
+In **Styled Mode**, override any CSS variable on `.rea-calendar` in your own stylesheet:
 
 ```css
 .rea-calendar {
-  /* Color accents */
   --rea-btn-primary-bg:        #7c3aed;
   --rea-btn-primary-bg-hover:  #6d28d9;
   --rea-slot-available-bg:     #15803d;
   --rea-slot-booked-bg:        #7c3aed;
   --rea-today-indicator:       #7c3aed;
-
-  /* Borders & backgrounds */
   --rea-border-default:        #cbd5e1;
   --rea-bg-base:               #ffffff;
-  --rea-bg-subtle:             #f1f5f9;
-
-  /* Shape */
-  --rea-radius-btn:            6px;
-  --rea-radius-lg:             10px;
-
-  /* Layout */
   --rea-cell-min-height:       88px;
   --rea-week-row-height:       60px;
 }
@@ -247,20 +346,18 @@ In **Styled Mode**, override any CSS variable on `.rea-calendar` in your own sty
 | Layout | `--rea-cell-min-height`, `--rea-cell-padding`, `--rea-toolbar-height`, `--rea-time-gutter-width`, `--rea-week-row-height` |
 | Typography | `--rea-font-family`, `--rea-font-size-base/sm/xs` |
 
-> **Deprecated (removed in v0.3):** The old `--rea-color-*` aliases (`--rea-color-available`, `--rea-color-booked`, `--rea-color-bg`, etc.) still work but will be removed. Migrate to the `--rea-slot-*`, `--rea-bg-*` naming shown above.
-
 ---
 
 ## Types
 
 ```typescript
-export type SlotStatus = 'available' | 'booked' | 'unavailable'
+export type SlotStatus = 'available' | 'pending' | 'booked' | 'unavailable'
 
 export interface Slot {
   id: string
-  date: string          // ISO date: "YYYY-MM-DD"
-  startTime: string     // 24h format: "HH:MM"
-  endTime: string       // 24h format: "HH:MM"
+  date: string       // UTC date key: "YYYY-MM-DD" (use deriveDate() to build this)
+  startUtc: string   // Full UTC ISO 8601: "2026-05-19T09:00:00Z"
+  endUtc: string     // Full UTC ISO 8601: "2026-05-19T10:00:00Z"
   status: SlotStatus
   bookedByLabel?: string
 }
@@ -268,7 +365,7 @@ export interface Slot {
 export interface BookingFormData {
   subject: string
   notes: string
-  durationMinutes: number  // auto-computed from slot start/end times
+  durationMinutes: number
 }
 
 export interface Appointment {
