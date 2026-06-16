@@ -38,7 +38,7 @@ A SaaS platform that lets any user create and manage appointment calendars with 
 | Technology | Version | Purpose | Why |
 |------------|---------|---------|-----|
 | Firebase Auth | Firebase SDK v11 | Email + Google sign-in | Native pairing with Firestore; no third-party vendor lock-in; custom auth pages are required either way so Clerk's prebuilt UI provides no benefit. Handles email verification codes, password reset, and Google OAuth out of the box. |
-| firebase-admin | 13.x | Server-side token verification | Used in Next.js Route Handlers to verify `idToken` from the client before any privileged writes. Admin SDK bypasses Firestore Security Rules by design — server is the trust boundary. |
+| firebase-admin | ^14.x | Server-side token verification | Used in Next.js Route Handlers to verify `idToken` from the client before any privileged writes. Admin SDK bypasses Firestore Security Rules by design — server is the trust boundary. |
 ### Payments
 | Technology | Version | Purpose | Why |
 |------------|---------|---------|-----|

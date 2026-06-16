@@ -2,8 +2,8 @@
 phase: 2
 slug: firebase-foundation
 status: draft
-nyquist_compliant: false
-wave_0_complete: false
+nyquist_compliant: true
+wave_0_complete: true
 created: 2026-06-16
 ---
 
@@ -55,11 +55,11 @@ created: 2026-06-16
 
 ## Wave 0 Requirements
 
-- [ ] `my-app/vitest.config.ts` — vitest config with jsdom environment for rules tests
-- [ ] `my-app/tests/firestore.rules.test.ts` — stub file for security rules tests
-- [ ] Install vitest + @firebase/rules-unit-testing v5 as devDependencies
-- [ ] Install firebase-tools globally: `npm install -g firebase-tools`
-- [ ] Verify Java JDK 11+ is available (emulator requirement)
+- [x] `my-app/vitest.config.ts` — vitest config with jsdom environment for rules tests (Plan 01 Task 2)
+- [x] `my-app/lib/firebase/__tests__/firestore.rules.test.ts` — test file (Plan 04 Task 1)
+- [x] Install vitest + @firebase/rules-unit-testing v5 as devDependencies (Plan 01 Task 1)
+- [x] Install firebase-tools globally: `npm install -g firebase-tools` (Plan 01 Task 1)
+- [x] Verify Java JDK 11+ is available (emulator requirement) — documented in Plan 01 Task 1 as blocking prerequisite
 
 ---
 
@@ -75,11 +75,11 @@ created: 2026-06-16
 
 ## Validation Sign-Off
 
-- [ ] All tasks have `<automated>` verify or Wave 0 dependencies
-- [ ] Sampling continuity: no 3 consecutive tasks without automated verify
-- [ ] Wave 0 covers all MISSING references
-- [ ] No watch-mode flags
-- [ ] Feedback latency < 20s
-- [ ] `nyquist_compliant: true` set in frontmatter
+- [x] All tasks have `<automated>` verify or Wave 0 dependencies
+- [x] Sampling continuity: no 3 consecutive tasks without automated verify
+- [x] Wave 0 covers all MISSING references (Plans 01 + 04)
+- [x] No watch-mode flags
+- [x] Feedback latency < 20s
+- [x] `nyquist_compliant: true` set in frontmatter
 
-**Approval:** pending
+**Approval:** 2026-06-16
