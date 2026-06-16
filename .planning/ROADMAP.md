@@ -54,10 +54,10 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Firestore security rules deny all unauthenticated writes to creator-owned resources; a rule test suite passes
   4. A local emulator suite runs all three Firebase services (Auth, Firestore, Storage) for offline development
 **Plans**: 5 plans
-- [ ] 02-01-PLAN.md — Wave 1: Install Java/firebase-tools/npm packages, scaffold firebase.json + rules stubs + 6 composite indexes + vitest config
-- [ ] 02-02-PLAN.md — Wave 2: Firebase client SDK singleton (client.ts), Admin SDK singleton (admin.ts), TypeScript types for all 5 collections (types.ts)
-- [ ] 02-03-PLAN.md — Wave 2: Complete v1 Firestore security rules for all 5 collections
-- [ ] 02-04-PLAN.md — Wave 3: Security rules test suite (13+ tests, @firebase/rules-unit-testing v5)
+- [x] 02-01-PLAN.md — Wave 1: Install Java/firebase-tools/npm packages, scaffold firebase.json + rules stubs + 6 composite indexes + vitest config
+- [x] 02-02-PLAN.md — Wave 2: Firebase client SDK singleton (client.ts), Admin SDK singleton (admin.ts), TypeScript types for all 5 collections (types.ts)
+- [x] 02-03-PLAN.md — Wave 2: Complete v1 Firestore security rules for all 5 collections
+- [x] 02-04-PLAN.md — Wave 3: Security rules test suite (13+ tests, @firebase/rules-unit-testing v5)
 - [ ] 02-05-PLAN.md — Wave 4: Emulator seed script (1 user + 1 calendar + 5 slots) + human verification checkpoint
 
 ### Phase 3: Authentication
