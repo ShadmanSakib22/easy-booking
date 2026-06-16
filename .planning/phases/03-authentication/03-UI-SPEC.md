@@ -25,6 +25,8 @@ created: 2026-06-17
 
 Installed components (this session): `button`, `input`, `card`, `label`, `alert`, `skeleton`. (`form` is not a separate shadcn registry item in this preset — react-hook-form wiring is done manually against `input`/`label`/`alert` per CONTEXT.md D-12, matching RESEARCH.md's code examples.)
 
+**Required override:** `components/ui/button.tsx` ships with `font-medium` (500) on its base class string by default. This phase requires changing that to `font-semibold` (600) before implementing any auth screens, so button labels align with the Heading/Display weight and the project's typography contract holds at exactly two weights (400, 600) with zero exceptions. Executor must apply this override as the first task in this phase, then verify no other component re-introduces `font-medium`/500.
+
 ---
 
 ## Spacing Scale
@@ -42,7 +44,7 @@ Declared values (must be multiples of 4):
 | 3xl | 64px | Not used in this phase (no full-page marketing sections) |
 
 Exceptions:
-- Icon-only buttons (Google "G" glyph button, password show/hide toggle) use a 32px (`size-8`, shadcn default `icon` button size) square touch target — below the 44px mobile-accessibility guideline but consistent with shadcn's dense default scale used throughout; acceptable for desktop-first auth flows, executor should confirm tap comfort on mobile during manual QA.
+- Icon-only buttons (Google "G" glyph button, password show/hide toggle) use a 32px (`size-8`, shadcn default `icon` button size) square touch target — below the 44px mobile-accessibility guideline but consistent with shadcn's dense default scale used throughout; acceptable for desktop-first auth flows. **Manual QA checklist item (required before phase sign-off):** on a real mobile viewport (or device emulation at 375px width), tap-test both the Google "G" glyph button and the password show/hide toggle; confirm they are comfortably tappable with a finger. If not, bump to `size-9` (36px) or wrap with extra hit-area padding — do not ship at 32px without this check having been performed and recorded.
 - Skeleton loading block (`Guard.tsx` loading state) uses `md` (16px) internal gaps between skeleton lines, not a spacing scale violation, just noting non-content nature.
 
 ---
@@ -52,12 +54,12 @@ Exceptions:
 | Role | Size | Weight | Line Height |
 |------|------|--------|-------------|
 | Body | 14px (`text-sm`) | 400 (regular) | 1.5 |
-| Label | 14px (`text-sm`) | 500 (medium) | 1.4 |
+| Label | 14px (`text-sm`) | 600 (semibold) | 1.4 |
 | Heading | 20px (`text-xl`) | 600 (semibold) | 1.2 |
 | Display | 28px (`text-3xl`... use `text-[1.75rem]`/`text-3xl`) | 600 (semibold) | 1.2 |
 
 Notes:
-- Two weights only, per design-contract rule: 400 (regular, body copy, helper/error text) and 600 (semibold, headings, card titles, "Sign in" / "Create account" page titles). shadcn's `button.tsx` default uses `font-medium` (500) for button labels — this is the one sanctioned exception (interactive control labels), not a third body/heading weight; do not introduce 500 elsewhere.
+- Exactly two weights, no exceptions: 400 (regular — body copy, helper/error text) and 600 (semibold — labels, headings, card titles, button labels, "Sign in" / "Create account" page titles). `components/ui/button.tsx`'s default `font-medium` (500) is overridden to `font-semibold` (600) per the Design System section above, so button labels carry the same weight as headings/labels — no third weight value exists anywhere in this contract.
 - Display (28px/600) is reserved for the single page-level heading at the top of each `AuthLayout` card (e.g. "Welcome back", "Create your account", "Reset your password"). Heading (20px/600) is reserved for sub-sections (e.g. card title inside `CardHeader` if distinct from the page-level heading — in practice these will usually collapse into one element; do not stack both on the same page).
 - Body line-height 1.5 (form helper text, error messages, empty-state copy). Heading/Display line-height 1.2.
 
@@ -75,6 +77,12 @@ Notes:
 Accent reserved for: primary submit buttons on each auth form, the focus ring on the currently-focused input, and inline text links connecting auth pages to each other (sign-in ↔ sign-up, forgot-password back-link). Google sign-in button uses `outline` button variant (neutral border, not accent) so it visually reads as a secondary action relative to the primary email/password CTA — this satisfies the "one obvious default action per page" rule.
 
 This is a grayscale-dominant palette by design (shadcn `base-nova` neutral preset, no project brand color decided yet) — 60/30/10 here refers to surface/elevation hierarchy (background vs. card vs. interactive-accent), not hue variety. If a brand color is chosen in a future phase, only the `--primary`/accent role should be re-themed; do not introduce a second accent.
+
+**Focal point per page type:**
+- Sign-in / sign-up card pages: the focal point is the primary submit button (`Sign in` / `Create account`) — it is the only `--primary`-filled element on the page, positioned directly below the form fields, drawing the eye via color contrast against the otherwise grayscale card.
+- Verify-email pending state: the focal point is the "Check your email" Display heading paired with the email-icon visual immediately above it — there is no form on this screen, so hierarchy is carried by typographic weight (28px/600) rather than color, with the "Resend email" link/button as the secondary focal element below.
+
+**Icon-only control accessibility:** Both icon-only interactive controls in this phase must carry an explicit `aria-label` (not just a visual icon) — the Google sign-in button's icon variant (if used standalone) takes `aria-label="Continue with Google"`, and the password show/hide toggle takes `aria-label="Show password"` when masked and `aria-label="Hide password"` when revealed (label text swaps with state, not a static label).
 
 ---
 
