@@ -1,0 +1,3 @@
+[submodule "my-app"]
+	path = my-app
+	url = /home/toasty/Desktop/Code Projects/EasyAppointment/my-app
