@@ -49,7 +49,8 @@ A calendar creator can publish a booking page in minutes and receive confirmed, 
 
 ## Context
 
-- **Existing code:** Two sub-directories exist: `appoinment-scheduler` (the react-easy-appointments npm package the user maintains) and `my-app` (a Next.js scaffold). The package needs improvements first before the SaaS site is built on top of it.
+- **Phase 2 complete (firebase-foundation):** Firebase project config (firebase.json, firestore.rules, indexes, storage.rules), SDK singletons (client.ts, admin.ts), TypeScript types for all 5 Firestore collections, v1 security rules (15/15 rules tests passing), and a verified emulator dev workflow (seed script + concurrent `pnpm dev`) are in place. All subsequent phases build on this foundation.
+- **Existing code:** Two sub-directories exist: `appoinment-scheduler` (the react-easy-appointments npm package the user maintains) and `my-app` (a Next.js scaffold, now with Firebase wired in as a git submodule). The package needs improvements first before the SaaS site is built on top of it.
 - **Calendar package:** `react-easy-appointments` on npm — user owns and maintains it. The SaaS will import this package.
 - **Real-time requirement:** Firebase Realtime Database (or Firestore with real-time listeners) to prevent double-booking race conditions.
 - **Auth:** Firebase Auth preferred over Clerk because it pairs with Firebase backend and avoids a third-party dependency; custom auth pages required (sign-in, sign-up, forgot password, email verification, change password).
@@ -94,4 +95,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-06-15 after initialization*
+*Last updated: 2026-06-16 after Phase 2 (firebase-foundation) completion*
