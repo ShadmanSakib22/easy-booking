@@ -58,7 +58,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] 02-02-PLAN.md — Wave 2: Firebase client SDK singleton (client.ts), Admin SDK singleton (admin.ts), TypeScript types for all 5 collections (types.ts)
 - [x] 02-03-PLAN.md — Wave 2: Complete v1 Firestore security rules for all 5 collections
 - [x] 02-04-PLAN.md — Wave 3: Security rules test suite (13+ tests, @firebase/rules-unit-testing v5)
-- [ ] 02-05-PLAN.md — Wave 4: Emulator seed script (1 user + 1 calendar + 5 slots) + human verification checkpoint
+- [x] 02-05-PLAN.md — Wave 4: Emulator seed script (1 user + 1 calendar + 5 slots) + human verification checkpoint
 
 ### Phase 3: Authentication
 **Goal**: Users can securely create accounts, sign in via email or Google, verify their email, recover their password, and maintain a persistent session — all through custom-built Next.js pages
